@@ -1,0 +1,35 @@
+// Modern Bootstrap Import
+// Tento soubor importuje pouze nejnutnější části Bootstrap pro minimalizaci warnings
+
+// 1. Naše custom variables
+@import "./bootstrap-custom/variables";
+
+// 2. Bootstrap core (jen nejnutnější)
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+
+// 3. Bootstrap layout
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+
+// 4. Bootstrap components (jen co používáme)
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/spinners";
+
+// 5. Bootstrap utilities
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api";
+
+// 6. Naše custom komponenty
+@import "./bootstrap-custom/components";
+@import "./bootstrap-custom/utilities";

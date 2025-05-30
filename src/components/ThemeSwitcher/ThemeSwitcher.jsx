@@ -1,23 +1,18 @@
-// ThemeSwitcher component
+// ThemeSwitcher component using Bootstrap
 import React from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
-import './ThemeSwitcher.scss'
 
 const ThemeSwitcher = () => {
   const { theme, toggleTheme, isDark } = useTheme()
 
   return (
     <button
-      className={`theme-switcher ${isDark ? 'dark' : 'light'}`}
+      className={`btn btn-outline-secondary theme-switcher rounded-pill`}
       onClick={toggleTheme}
       title={`Přepnout na ${isDark ? 'světlý' : 'tmavý'} režim`}
       aria-label={`Přepnout na ${isDark ? 'světlý' : 'tmavý'} režim`}
     >
-      <div className="theme-switcher-track">
-        <div className="theme-switcher-thumb">
-          <i className={`bi bi-${isDark ? 'moon-stars' : 'sun'}`}></i>
-        </div>
-      </div>
+      <i className={`bi bi-${isDark ? 'moon-stars' : 'sun'}`}></i>
     </button>
   )
 }

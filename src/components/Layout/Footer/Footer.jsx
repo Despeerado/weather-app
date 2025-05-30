@@ -1,16 +1,27 @@
-// Placeholder for Footer component
+// Footer component using Bootstrap
 import React from 'react'
-import './Footer.scss'
 
 const Footer = () => {
   return (
-    <footer className="app-footer">
-      <div className="container">
-        <p>&copy; 2025 Počasník Weather App. Všechna práva vyhrazena.</p>
-        <p>Powered by OpenWeatherMap API</p>
+    <footer className="bg-light border-top mt-auto">
+      <div className="container py-4">
+        <div className="row">
+          <div className="col-md-6">
+            <p className="text-muted mb-1">
+              &copy; 2025 Počasník Weather App. Všechna práva vyhrazena.
+            </p>
+          </div>
+          <div className="col-md-6 text-md-end">
+            <p className="text-muted mb-1">
+              <i className="bi bi-cloud-sun me-1"></i>
+              Powered by OpenWeatherMap API
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   )
 }
+
 
 export default Footer

@@ -1,8 +1,7 @@
-// FavoriteCitiesWidget component
+// FavoriteCitiesWidget component using Bootstrap
 import React, { useState } from 'react'
 import { useFavorites } from '../../contexts/FavoritesContext'
 import { useWeather } from '../../contexts/WeatherContext'
-import './FavoriteCitiesWidget.scss'
 
 const FavoriteCitiesWidget = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -31,50 +30,53 @@ const FavoriteCitiesWidget = () => {
   }
 
   return (
-    <div className="favorite-cities-widget">
-      <button
-        className="favorites-toggle"
-        onClick={() => setIsOpen(!isOpen)}
-        title="Oblíbená města"
-      >
-        <i className="bi bi-star-fill"></i>
-        <span>Oblíbená města ({favorites.length})</span>
-        <i className={`bi bi-chevron-${isOpen ? 'up' : 'down'}`}></i>
-      </button>
+    <div className="card weather-card">
+      <div className="card-header d-flex justify-content-between align-items-center">
+        <h6 className="card-title mb-0">
+          <i className="bi bi-star-fill text-warning me-2"></i>
+          Oblíbená města ({favorites.length})
+        </h6>
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-outline-danger btn-sm"
+            onClick={handleClearAll}
+            title="Vymazat vše"
+          >
+            <i className="bi bi-trash"></i>
+          </button>
+          <button
+            className="btn btn-outline-secondary btn-sm"
+            onClick={() => setIsOpen(!isOpen)}
+            title={isOpen ? 'Skrýt' : 'Zobrazit'}
+          >
+            <i className={`bi bi-chevron-${isOpen ? 'up' : 'down'}`}></i>
+          </button>
+        </div>
+      </div>
 
       {isOpen && (
-        <div className="favorites-dropdown">
-          <div className="favorites-header">
-            <h3>Oblíbená města</h3>
-            <button
-              className="clear-all-btn"
-              onClick={handleClearAll}
-              title="Vymazat vše"
-            >
-              <i className="bi bi-trash"></i>
-            </button>
-          </div>
-
-          <ul className="favorites-list">
+        <div className="card-body p-0">
+          <div className="list-group list-group-flush">
             {favorites.map((favorite) => (
-              <li key={favorite.id} className="favorite-item">
+              <div key={favorite.id} className="list-group-item d-flex justify-content-between align-items-center">
                 <button
-                  className="favorite-city-btn"
+                  className="btn btn-link text-start flex-grow-1 text-decoration-none p-0"
                   onClick={() => handleCityClick(favorite.name)}
                   title={`Zobrazit počasí pro ${favorite.name}`}
                 >
-                  <span className="city-name">{favorite.name}</span>
+                  <i className="bi bi-geo-alt me-2 text-muted"></i>
+                  {favorite.name}
                 </button>
                 <button
-                  className="remove-btn"
+                  className="btn btn-outline-danger btn-sm"
                   onClick={(e) => handleRemove(e, favorite.id)}
                   title="Odstranit z oblíbených"
                 >
                   <i className="bi bi-x"></i>
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>

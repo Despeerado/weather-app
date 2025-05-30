@@ -1,26 +1,14 @@
-@use '../../assets/styles/abstracts' as *;
+// Layout component styles using Bootstrap utilities
+// Custom styles that extend Bootstrap
 
-// Layout component styles
-
-.app-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+.navbar {
+  // Custom navbar styles defined in bootstrap-custom/components.scss
 }
 
-.main-content {
-  flex: 1;
-  padding: 2rem 1rem;
-  max-width: var(--container-max-width);
-  margin: 0 auto;
-  width: 100%;
-
-  @include media-breakpoint-down(md) {
-    padding: 1rem;
+// Custom responsive adjustments
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }

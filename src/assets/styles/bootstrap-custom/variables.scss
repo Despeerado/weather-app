@@ -1,0 +1,104 @@
+// Bootstrap Custom Variables
+// Tento soubor musí být importován PŘED Bootstrap variables
+
+// === BARVY ===
+// Primary colors for weather app
+$primary: #2563eb; // Blue for weather theme
+$secondary: #64748b; // Slate gray
+$success: #10b981; // Emerald
+$info: #06b6d4; // Cyan
+$warning: #f59e0b; // Amber
+$danger: #ef4444; // Red
+$light: #f8fafc; // Very light gray
+$dark: #1e293b; // Dark slate
+
+// === THEME COLORS ===
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+  "weather-sunny": #fbbf24,
+  "weather-rainy": #3b82f6,
+  "weather-cloudy": #6b7280,
+  "weather-snowy": #e5e7eb,
+);
+
+// === FONTS ===
+$font-family-sans-serif:
+  "Inter",
+  system-ui,
+  -apple-system,
+  "Segoe UI",
+  Roboto,
+  sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.6;
+
+// === SPACING ===
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 4,
+  7: $spacer * 5,
+  8: $spacer * 6,
+);
+
+// === BREAKPOINTS ===
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+);
+
+// === BORDERS ===
+$border-radius: 0.5rem;
+$border-radius-sm: 0.25rem;
+$border-radius-lg: 0.75rem;
+$border-radius-xl: 1rem;
+
+// === SHADOWS ===
+$box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+
+// === KOMPONENTY ===
+// Cards
+$card-border-radius: $border-radius-lg;
+$card-box-shadow:
+  0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+// Buttons
+$btn-border-radius: $border-radius;
+$btn-border-radius-sm: $border-radius-sm;
+$btn-border-radius-lg: $border-radius-lg;
+
+// Navbar
+$navbar-padding-y: 1rem;
+$navbar-brand-font-size: 1.5rem;
+
+// === TRANSITIONS ===
+$transition-base: all 0.2s ease-in-out;
+$transition-fade: opacity 0.15s linear;
+$transition-collapse: height 0.35s ease;

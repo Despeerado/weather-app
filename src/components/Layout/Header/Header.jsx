@@ -1,19 +1,21 @@
-// Placeholder for Header component
+// Header component using Bootstrap
 import React from 'react'
 import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher'
-import './Header.scss'
 
 const Header = () => {
   return (
-    <header className="app-header">
+    <nav className="navbar navbar-expand-lg sticky-navbar">
       <div className="container">
-        <h1 className="app-title">
-          <i className="bi bi-cloud-sun"></i>
+        <a className="navbar-brand d-flex align-items-center" href="/">
+          <i className="bi bi-cloud-sun me-2"></i>
           Počasník
-        </h1>
-        <ThemeSwitcher />
+        </a>
+        
+        <div className="d-flex align-items-center">
+          <ThemeSwitcher />
+        </div>
       </div>
-    </header>
+    </nav>
   )
 }
 

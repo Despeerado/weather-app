@@ -1,6 +1,5 @@
-// Placeholder for ForecastDisplay component
+// ForecastDisplay component using Bootstrap
 import React from 'react'
-import './ForecastDisplay.scss'
 
 const ForecastDisplay = ({ data }) => {
   if (!data || !data.daily) return null
@@ -30,58 +29,71 @@ const ForecastDisplay = ({ data }) => {
   }
 
   return (
-    <div className="forecast-display">
-      <h3 className="forecast-title">5denní předpověď</h3>
-      
-      <div className="forecast-list">
-        {daily.map((day, index) => {
-          const mainWeather = getMainWeatherForDay(day.items)
-          const isToday = index === 0
-          
-          return (
-            <div key={day.date.toDateString()} className={`forecast-item ${isToday ? 'today' : ''}`}>
-              <div className="day-info">
-                <span className="day-name">
-                  {isToday ? 'Dnes' : formatDate(day.date)}
-                </span>
-              </div>
-              
-              <div className="weather-icon">
-                <img 
-                  src={`https://openweathermap.org/img/wn/${mainWeather.icon}.png`}
-                  alt={mainWeather.description}
-                  title={mainWeather.description}
-                />
-              </div>
-              
-              <div className="description">
-                {mainWeather.description}
-              </div>
-              
-              <div className="temperature-range">
-                <span className="max-temp">{day.maxTemp}°</span>
-                <span className="min-temp">{day.minTemp}°</span>
-              </div>
-              
-              <div className="additional-info">
-                <div className="info-item">
-                  <i className="bi bi-droplet"></i>
-                  <span>{mainWeather.humidity}%</span>
-                </div>
-                <div className="info-item">
-                  <i className="bi bi-wind"></i>
-                  <span>{mainWeather.windSpeed} m/s</span>
-                </div>
-                {mainWeather.pop > 0 && (
-                  <div className="info-item precipitation">
-                    <i className="bi bi-umbrella"></i>
-                    <span>{Math.round(mainWeather.pop * 100)}%</span>
+    <div className="card weather-card h-100">
+      <div className="card-header">
+        <h5 className="card-title mb-0">
+          <i className="bi bi-calendar3 me-2"></i>
+          5denní předpověď
+        </h5>
+      </div>
+      <div className="card-body p-0">
+        <div className="list-group list-group-flush">
+          {daily.map((day, index) => {
+            const mainWeather = getMainWeatherForDay(day.items)
+            const isToday = index === 0
+            
+            return (
+              <div 
+                key={day.date.toDateString()} 
+                className={`list-group-item d-flex align-items-center justify-content-between ${isToday ? 'bg-primary bg-opacity-10' : ''}`}
+              >
+                <div className="d-flex align-items-center flex-grow-1">
+                  <div className="me-3" style={{ minWidth: '80px' }}>
+                    <strong className={isToday ? 'text-primary' : ''}>
+                      {isToday ? 'Dnes' : formatDate(day.date)}
+                    </strong>
                   </div>
-                )}
+                  
+                  <div className="me-3">
+                    <img 
+                      src={`https://openweathermap.org/img/wn/${mainWeather.icon}.png`}
+                      alt={mainWeather.description}
+                      title={mainWeather.description}
+                      className="weather-icon small"
+                    />
+                  </div>
+                  
+                  <div className="me-3 flex-grow-1">
+                    <div className="weather-description small text-muted">
+                      {mainWeather.description}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="d-flex align-items-center">
+                  <div className="me-3 text-end">
+                    <span className="fw-bold text-primary">{day.maxTemp}°</span>
+                    <span className="text-muted small"> / {day.minTemp}°</span>
+                  </div>
+                  
+                  <div className="d-flex gap-2 text-muted small">
+                    <span title="Vlhkost">
+                      <i className="bi bi-droplet"></i> {mainWeather.humidity}%
+                    </span>
+                    <span title="Vítr">
+                      <i className="bi bi-wind"></i> {mainWeather.windSpeed}m/s
+                    </span>
+                    {mainWeather.pop > 0 && (
+                      <span title="Pravděpodobnost srážek" className="text-info">
+                        <i className="bi bi-umbrella"></i> {Math.round(mainWeather.pop * 100)}%
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
     </div>
   )
