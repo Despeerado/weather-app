@@ -1,0 +1,53 @@
+@use '../../assets/styles/abstracts' as *;
+
+// ThemeSwitcher component styles
+
+.theme-switcher {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  .theme-switcher-track {
+    width: 60px;
+    height: 30px;
+    background: var(--bg-secondary);
+    border-radius: 15px;
+    position: relative;
+    transition: background-color 0.3s ease;
+    border: 2px solid var(--border-color);
+  }
+
+  .theme-switcher-thumb {
+    width: 26px;
+    height: 26px;
+    background: var(--bg-primary);
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+
+    i {
+      font-size: 0.875rem;
+    }
+  }
+
+  &.dark .theme-switcher-thumb {
+    transform: translateX(30px);
+  }
+
+  &:hover .theme-switcher-track {
+    background: var(--bg-tertiary);
+  }
+
+  &:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}

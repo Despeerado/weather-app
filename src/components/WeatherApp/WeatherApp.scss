@@ -1,0 +1,19 @@
+// WeatherApp component styles
+.weather-app {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .weather-content {
+    margin-top: 2rem;
+    display: grid;
+    gap: 2rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+}

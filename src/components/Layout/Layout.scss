@@ -1,0 +1,26 @@
+@use '../../assets/styles/abstracts' as *;
+
+// Layout component styles
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+
+  @include media-breakpoint-down(md) {
+    padding: 1rem;
+  }
+}

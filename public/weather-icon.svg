@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" fill="none">
+  <rect width="192" height="192" rx="32" fill="#007bff"/>
+  <g transform="translate(48, 48)">
+    <!-- Sun -->
+    <circle cx="48" cy="48" r="20" fill="#FFD700" stroke="#FFA500" stroke-width="2"/>
+    <!-- Sun rays -->
+    <g stroke="#FFA500" stroke-width="3" stroke-linecap="round">
+      <line x1="48" y1="8" x2="48" y2="16"/>
+      <line x1="48" y1="80" x2="48" y2="88"/>
+      <line x1="8" y1="48" x2="16" y2="48"/>
+      <line x1="80" y1="48" x2="88" y2="48"/>
+      <line x1="19.8" y1="19.8" x2="25.4" y2="25.4"/>
+      <line x1="70.6" y1="70.6" x2="76.2" y2="76.2"/>
+      <line x1="19.8" y1="76.2" x2="25.4" y2="70.6"/>
+      <line x1="70.6" y1="25.4" x2="76.2" y2="19.8"/>
+    </g>
+    <!-- Cloud -->
+    <path d="M72 56c0-8.8-7.2-16-16-16-6.4 0-12 3.8-14.4 9.6-1.6-0.4-3.2-0.6-4.8-0.6-8.8 0-16 7.2-16 16 0 1.6 0.2 3.2 0.8 4.8-4.8 1.6-8 6-8 11.2 0 6.4 5.6 12 12 12h44c6.4 0 12-5.6 12-12 0-6.4-5.6-12-12-12h-1.6c1.6-2.4 2.4-5.2 2.4-8z" fill="#87CEEB" stroke="#4682B4" stroke-width="2"/>
+  </g>
+  <!-- App title -->
+  <text x="96" y="156" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Počasník</text>
+</svg>

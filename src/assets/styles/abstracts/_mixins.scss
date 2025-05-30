@@ -1,0 +1,142 @@
+// SCSS Mixins
+@use 'sass:math';
+@use 'sass:map';
+@use 'variables' as *;
+
+// Responsive breakpoints
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin mobile-up {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+
+  &:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+  }
+}
+
+// Card mixins
+@mixin card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+// Animations
+@mixin fade-in($duration: 0.3s) {
+  animation: fadeIn $duration ease-in-out;
+}
+
+@mixin slide-up($duration: 0.3s) {
+  animation: slideUp $duration ease-out;
+}
+
+// Utility mixins
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Responsive breakpoint mixins using modern SASS syntax
+@mixin media-breakpoint-down($breakpoint) {
+  @media (max-width: #{map.get($breakpoints, $breakpoint) - 1px}) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-up($breakpoint) {
+  @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-between($lower, $upper) {
+  @media (min-width: #{map.get($breakpoints, $lower)}) and (max-width: #{map.get($breakpoints, $upper) - 1px}) {
+    @content;
+  }
+}
+
+@mixin media-breakpoint-only($breakpoint) {
+  @if $breakpoint == xs {
+    @media (max-width: #{map.get($breakpoints, sm) - 1px}) {
+      @content;
+    }
+  } @else {
+    $next: if(
+      $breakpoint == sm,
+      md,
+      if($breakpoint == md, lg, if($breakpoint == lg, xl, if($breakpoint == xl, xxl, null)))
+    );
+    @if $next {
+      @include media-breakpoint-between($breakpoint, $next) {
+        @content;
+      }
+    } @else {
+      @include media-breakpoint-up($breakpoint) {
+        @content;
+      }
+    }
+  }
+}

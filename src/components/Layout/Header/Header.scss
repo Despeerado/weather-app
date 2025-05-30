@@ -1,0 +1,53 @@
+@use '../../../assets/styles/abstracts' as *;
+
+// Header component styles
+
+.app-header {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 1rem 0;
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all 0.2s ease;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .app-title {
+    margin: 0;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+
+    i {
+      margin-right: 0.5rem;
+      color: var(--primary-color);
+      font-size: 1.2em;
+    }
+  }
+
+  // Mobile responsive
+  @include media-breakpoint-down(md) {
+    .container {
+      padding: 0.75rem 1rem;
+    }
+
+    .app-title {
+      font-size: var(--font-size-lg);
+    }
+  }
+}

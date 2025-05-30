@@ -1,0 +1,21 @@
+{
+  "name": "Počasník - React Weather App",
+  "short_name": "Počasník",
+  "description": "Moderní React aplikace pro sledování počasí s pokročilým našeptávačem měst",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "cs",
+  "categories": ["weather", "utilities"],
+  "icons": [
+    {
+      "src": "/weather-icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
