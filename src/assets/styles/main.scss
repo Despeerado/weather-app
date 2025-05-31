@@ -1,6 +1,9 @@
 // Import Bootstrap with customizations
 @import "./bootstrap-custom";
 
+// Import base styles
+@import "./base";
+
 // Import custom theme styles
 @import "./themes/default";
 

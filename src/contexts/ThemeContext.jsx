@@ -1,5 +1,8 @@
-// Theme Context for managing dark/light theme
+// Theme Context for managing dark/light theme with MUI support
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import { lightTheme, darkTheme } from '../theme/muiTheme'
 
 const ThemeContext = createContext()
 
@@ -15,8 +18,8 @@ export const ThemeProvider = ({ children }) => {
   })
 
   useEffect(() => {
-    // Apply theme to document
-    document.documentElement.setAttribute('data-theme', theme)
+    // Apply theme to document using Bootstrap 5.3+ standard
+    document.documentElement.setAttribute('data-bs-theme', theme)
     localStorage.setItem('theme', theme)
   }, [theme])
 
@@ -42,11 +45,15 @@ export const ThemeProvider = ({ children }) => {
     theme,
     toggleTheme,
     isDark: theme === 'dark',
+    muiTheme: theme === 'dark' ? darkTheme : lightTheme,
   }
 
   return (
     <ThemeContext.Provider value={value}>
-      {children}
+      <MuiThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   )
 }

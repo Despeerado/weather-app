@@ -2,15 +2,42 @@
 // Tento soubor musí být importován PŘED Bootstrap variables
 
 // === BARVY ===
-// Primary colors for weather app
-$primary: #2563eb; // Blue for weather theme
-$secondary: #64748b; // Slate gray
-$success: #10b981; // Emerald
-$info: #06b6d4; // Cyan
-$warning: #f59e0b; // Amber
-$danger: #ef4444; // Red
-$light: #f8fafc; // Very light gray
-$dark: #1e293b; // Dark slate
+// Primary colors for weather app based on "Beautiful colorful cityscape" palette
+$primary: #1b8ef2;
+$secondary: #38bdf2;
+$success: #10b981; // Ponecháno původní, upravit dle potřeby
+$info: #1ba0f2;
+$warning: #f2a516;
+$danger: #ef4444; // Ponecháno původní, upravit dle potřeby
+$light: #f8fafc; // Ponecháno původní, upravit dle potřeby
+$dark: #1e293b; // Ponecháno původní, upravit dle potřeby
+
+// Doplňková barva z palety
+$accent-blue: #38d0f2;
+
+// === DARK MODE OVERRIDES ===
+// Tyto proměnné přepisují výchozí proměnné tmavého režimu Bootstrapu.
+// Ujistěte se, že bootstrap/scss/variables-dark je importován AŽ PO tomto souboru.
+
+$body-bg-dark: $dark; // Použití naší $dark barvy pro pozadí v tmavém režimu
+$body-color-dark: $light; // Použití naší $light barvy pro text v tmavém režimu
+
+// Příklad: Přizpůsobení vzhledu karet v tmavém režimu
+// $card-bg-dark: lighten($dark, 5%); // O něco světlejší než pozadí těla
+// $card-color-dark: $body-color-dark;
+// $card-border-color-dark: lighten($dark, 10%);
+
+// Můžete také definovat mapu $theme-colors-dark, pokud chcete
+// odlišné odstíny pro primary, secondary atd. v tmavém režimu.
+// Ve výchozím nastavení se je Bootstrap pokusí vygenerovat zesvětlením standardních barev motivu.
+// Příklad:
+// $theme-colors-dark: (
+//   "primary": lighten($primary, 15%), // Zesvětlení primární barvy pro tmavý režim
+//   "secondary": lighten($secondary, 15%),
+//   "info": lighten($info, 15%),
+//   "warning": lighten($warning, 10%), // Oranžová může potřebovat menší zesvětlení
+//   // ... další barvy
+// );
 
 // === THEME COLORS ===
 $theme-colors: (
@@ -22,10 +49,14 @@ $theme-colors: (
   "danger": $danger,
   "light": $light,
   "dark": $dark,
-  "weather-sunny": #fbbf24,
-  "weather-rainy": #3b82f6,
-  "weather-cloudy": #6b7280,
-  "weather-snowy": #e5e7eb,
+  "accent-blue": $accent-blue,
+  "weather-sunny": $warning,
+  // Použijeme warning jako základ pro slunečno
+  "weather-rainy": $primary,
+  // Použijeme primary pro déšť
+  "weather-cloudy": $secondary,
+  // Použijeme secondary pro oblačnost
+  "weather-snowy": #e5e7eb, // Ponecháno původní, upravit dle potřeby
 );
 
 // === FONTS ===
