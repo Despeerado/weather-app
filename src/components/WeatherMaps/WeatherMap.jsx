@@ -6,6 +6,15 @@ import WeatherMapControls from './WeatherMapControls.jsx';
 import WeatherMapLegend from './WeatherMapLegend.jsx';
 import './WeatherMaps.css';
 
+// Fix for default markers in react-leaflet
+import L from 'leaflet';
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
 // Component to handle map events and updates
 const MapEventHandler = ({ 
   onMapMove, 
@@ -54,16 +63,26 @@ const MapEventHandler = ({
 const WeatherTileLayer = ({ layer, opacity, onTileLoadStart, onTileLoadComplete, onTileLoadError }) => {
   const map = useMap();
   
+  // Debug URL construction
+  const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY || import.meta.env.VITE_WEATHER_API_KEY;
+  
+  if (!apiKey || apiKey === 'your-api-key-here') {
+    console.error('Missing or invalid OpenWeatherMap API key');
+    return null;
+  }
+  
+  const tileUrl = `https://tile.openweathermap.org/map/${layer}/{z}/{x}/{y}.png?appid=${apiKey}`;
+  
   return (
     <TileLayer
       key={`${layer}-${opacity}`}
-      url={`https://tile.openweathermap.org/map/${layer}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_OPENWEATHER_API_KEY || import.meta.env.VITE_WEATHER_API_KEY}&opacity=${opacity}`}
+      url={tileUrl}
       opacity={opacity}
       attribution='&copy; <a href="https://openweathermap.org/">OpenWeatherMap</a>'
       eventHandlers={{
-        loading: () => onTileLoadStart(layer),
-        load: () => onTileLoadComplete(layer),
-        tileerror: (error) => onTileLoadError(layer, error)
+        loading: () => onTileLoadStart && onTileLoadStart(layer),
+        load: () => onTileLoadComplete && onTileLoadComplete(layer),
+        tileerror: (error) => onTileLoadError && onTileLoadError(layer, error)
       }}
     />
   );
@@ -77,6 +96,27 @@ const WeatherMap = ({
   showLegend = true,
   className = ''
 }) => {
+  // Check if Leaflet is available
+  if (typeof window !== 'undefined' && !window.L) {
+    return (
+      <div style={{
+        height,
+        minHeight: '400px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'rgba(255,255,255,0.1)',
+        borderRadius: '20px',
+        border: '1px solid rgba(255,255,255,0.2)'
+      }}>
+        <div style={{ textAlign: 'center', color: '#666' }}>
+          <p>⚠️ Načítání mapy...</p>
+          <p>Pokud se mapa nenačítá, zkontrolujte internetové připojení</p>
+        </div>
+      </div>
+    );
+  }
+
   const {
     mapCenter,
     zoomLevel,
@@ -108,16 +148,32 @@ const WeatherMap = ({
   return (
     <div 
       className={`weather-map-container ${className}`}
-      style={{ height }}
+      style={{ height, minHeight: '400px' }}
       ref={mapContainerRef}
     >
+      {/* Debug info */}
+      <div style={{
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
+        background: 'rgba(0,0,0,0.7)',
+        color: 'white',
+        padding: '5px',
+        borderRadius: '5px',
+        fontSize: '12px',
+        zIndex: 1001
+      }}>
+        Map: {mapCenter.lat.toFixed(2)}, {mapCenter.lon.toFixed(2)} | Zoom: {zoomLevel} | Layers: {activeLayers.length}
+      </div>
+      
       <MapContainer
         center={[mapCenter.lat, mapCenter.lon]}
         zoom={zoomLevel}
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: '100%', width: '100%', minHeight: '400px' }}
         className="weather-map"
         ref={mapRef}
         whenCreated={(map) => {
+          console.log('Weather map created successfully');
           if (onLocationSelect) {
             map.on('click', handleMapClick);
           }
@@ -153,7 +209,7 @@ const WeatherMap = ({
       {/* Loading overlay */}
       {isLoading && (
         <div className="map-loading-overlay">
-          <div className="map-loading-spinner"></div>
+          <div className="map-loading-spinner">🔄 Načítám meteorologické vrstvy...</div>
         </div>
       )}
 

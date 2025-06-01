@@ -1,15 +1,24 @@
 // Header component using MUI
 import React, { useState } from 'react'
-import { AppBar, Toolbar, Typography, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material'
+import { useLocation, Link } from 'react-router-dom'
+import { AppBar, Toolbar, Typography, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, Tabs, Tab } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { CloudQueue, Palette } from '@mui/icons-material'
+import { CloudQueue, Palette, Home, Map } from '@mui/icons-material'
 import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher'
 import ColorPaletteDemo from '../../UI/ColorPaletteDemo'
 
 const Header = () => {
   const theme = useTheme()
+  const location = useLocation()
   const isDarkMode = theme.palette.mode === 'dark'
   const [isColorDemoOpen, setIsColorDemoOpen] = useState(false)
+
+  // Determine current tab based on location
+  const getCurrentTab = () => {
+    if (location.pathname === '/') return 0
+    if (location.pathname === '/maps') return 1
+    return 0
+  }
 
   const handleColorDemoOpen = () => {
     setIsColorDemoOpen(true)
@@ -52,11 +61,72 @@ const Header = () => {
               sx={{ 
                 fontWeight: 700,
                 textDecoration: 'none',
-                fontSize: { xs: '1.1rem', sm: '1.25rem' }
+                fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                mr: 3
               }}
             >
               Počasník
             </Typography>
+
+            {/* Navigation Tabs */}
+            <Tabs 
+              value={getCurrentTab()} 
+              sx={{ 
+                flexGrow: 1,
+                display: { xs: 'none', sm: 'flex' }, // Hide on mobile
+                '& .MuiTab-root': {
+                  color: 'inherit',
+                  minWidth: 'auto',
+                  px: 2,
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: theme.palette.primary.main,
+                }
+              }}
+            >
+              <Tab 
+                icon={<Home />} 
+                label="Počasí" 
+                component={Link} 
+                to="/"
+                sx={{ textTransform: 'none' }}
+              />
+              <Tab 
+                icon={<Map />} 
+                label="Mapy" 
+                component={Link} 
+                to="/maps"
+                sx={{ textTransform: 'none' }}
+              />
+            </Tabs>
+
+            {/* Mobile Navigation Icons */}
+            <Box sx={{ display: { xs: 'flex', sm: 'none' }, gap: 1 }}>
+              <IconButton 
+                color="inherit" 
+                component={Link} 
+                to="/"
+                title="Aktuální počasí"
+                sx={{ 
+                  backgroundColor: getCurrentTab() === 0 ? 'rgba(255,255,255,0.1)' : 'transparent',
+                  borderRadius: 2
+                }}
+              >
+                <Home />
+              </IconButton>
+              <IconButton 
+                color="inherit" 
+                component={Link} 
+                to="/maps"
+                title="Meteorologické mapy"
+                sx={{ 
+                  backgroundColor: getCurrentTab() === 1 ? 'rgba(255,255,255,0.1)' : 'transparent',
+                  borderRadius: 2
+                }}
+              >
+                <Map />
+              </IconButton>
+            </Box>
           </Box>
           
           <IconButton

@@ -1,13 +1,12 @@
-/* Leaflet Map Styles */
-@import url('leaflet/dist/leaflet.css');
+/* Leaflet Map Styles - Leaflet CSS is loaded via CDN in index.html */
 
 .weather-map-container {
   position: relative;
   width: 100%;
   height: 100%;
+  min-height: 400px; /* Ensure minimum height */
   border-radius: 20px;
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  /* Remove overflow: hidden which can break Leaflet */
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -16,13 +15,30 @@
 .weather-map {
   width: 100%;
   height: 100%;
+  min-height: 400px; /* Ensure minimum height */
   border-radius: 20px;
   z-index: 1;
 }
 
+/* Force Leaflet container to have proper dimensions */
 .weather-map .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 400px !important;
   border-radius: 20px;
   background: rgba(135, 206, 250, 0.3);
+  position: relative !important;
+}
+
+/* Ensure tiles render properly */
+.weather-map .leaflet-map-pane {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.weather-map .leaflet-tile-container {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .weather-map .leaflet-control-container {
@@ -39,7 +55,7 @@
 
 .weather-map .leaflet-control-zoom a {
   background: rgba(255, 255, 255, 0.2);
-  color: var(--primary-color);
+  color: #1976d2; /* Use fixed color instead of CSS variable */
   border-radius: 8px;
   margin: 2px;
   line-height: 32px;
@@ -82,9 +98,15 @@
   width: 40px;
   height: 40px;
   border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid var(--primary-color);
+  border-top: 3px solid #1976d2; /* Use fixed color instead of CSS variable */
   border-radius: 50%;
   animation: spin 1s linear infinite;
+}
+
+/* Add keyframes for spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Error overlay */

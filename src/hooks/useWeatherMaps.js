@@ -1,14 +1,16 @@
 // useWeatherMaps Hook - Manage weather maps state and interactions
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { weatherMapsService } from '../services/weatherMapsService.js';
-import { CONFIG } from '../config/config.js';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { weatherMapsService } from "../services/weatherMapsService.js";
+import { CONFIG } from "../config/config.js";
 
 export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
   // State management
   const [mapCenter, setMapCenter] = useState(initialCenter);
   const [zoomLevel, setZoomLevel] = useState(CONFIG.WEATHER_MAPS.DEFAULT_ZOOM);
-  const [activeLayers, setActiveLayers] = useState(['clouds_new']);
-  const [layerOpacity, setLayerOpacity] = useState(CONFIG.WEATHER_MAPS.DEFAULT_OPACITY);
+  const [activeLayers, setActiveLayers] = useState(["clouds_new"]); // Start with one layer
+  const [layerOpacity, setLayerOpacity] = useState(
+    CONFIG.WEATHER_MAPS.DEFAULT_OPACITY,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [mapBounds, setMapBounds] = useState(null);
@@ -30,7 +32,7 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
   const updateZoomLevel = useCallback((zoom) => {
     const clampedZoom = Math.max(
       CONFIG.WEATHER_MAPS.MIN_ZOOM,
-      Math.min(CONFIG.WEATHER_MAPS.MAX_ZOOM, zoom)
+      Math.min(CONFIG.WEATHER_MAPS.MAX_ZOOM, zoom),
     );
     setZoomLevel(clampedZoom);
   }, []);
@@ -44,9 +46,9 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
       return;
     }
 
-    setActiveLayers(prev => {
+    setActiveLayers((prev) => {
       if (prev.includes(layerId)) {
-        return prev.filter(id => id !== layerId);
+        return prev.filter((id) => id !== layerId);
       } else {
         return [...prev, layerId];
       }
@@ -57,14 +59,14 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
    * Set active layers
    */
   const setLayers = useCallback((layers) => {
-    const validLayers = layers.filter(layerId => 
-      weatherMapsService.isValidLayer(layerId)
+    const validLayers = layers.filter((layerId) =>
+      weatherMapsService.isValidLayer(layerId),
     );
-    
+
     if (validLayers.length !== layers.length) {
-      setError('Některé vrstvy jsou neplatné');
+      setError("Některé vrstvy jsou neplatné");
     }
-    
+
     setActiveLayers(validLayers);
   }, []);
 
@@ -79,9 +81,12 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
   /**
    * Get tile URL for specific layer and coordinates
    */
-  const getTileUrl = useCallback((layer, z, x, y) => {
-    return weatherMapsService.getTileUrl(layer, z, x, y, layerOpacity);
-  }, [layerOpacity]);
+  const getTileUrl = useCallback(
+    (layer, z, x, y) => {
+      return weatherMapsService.getTileUrl(layer, z, x, y, layerOpacity);
+    },
+    [layerOpacity],
+  );
 
   /**
    * Handle tile loading start
@@ -109,7 +114,7 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
   const handleTileLoadError = useCallback((tileId, error) => {
     tilesLoadingRef.current.delete(tileId);
     console.error(`Chyba při načítání tile ${tileId}:`, error);
-    
+
     if (tilesLoadingRef.current.size === 0) {
       setIsLoading(false);
     }
@@ -118,12 +123,15 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
   /**
    * Center map on specific coordinates
    */
-  const centerMapOn = useCallback((lat, lon, zoom = null) => {
-    updateMapCenter(lat, lon);
-    if (zoom !== null) {
-      updateZoomLevel(zoom);
-    }
-  }, [updateMapCenter, updateZoomLevel]);
+  const centerMapOn = useCallback(
+    (lat, lon, zoom = null) => {
+      updateMapCenter(lat, lon);
+      if (zoom !== null) {
+        updateZoomLevel(zoom);
+      }
+    },
+    [updateMapCenter, updateZoomLevel],
+  );
 
   /**
    * Fit map to bounds
@@ -132,9 +140,12 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
     const { north, south, east, west } = bounds;
     const centerLat = (north + south) / 2;
     const centerLon = (east + west) / 2;
-    
-    const optimalZoom = weatherMapsService.getOptimalZoom(bounds, containerSize);
-    
+
+    const optimalZoom = weatherMapsService.getOptimalZoom(
+      bounds,
+      containerSize,
+    );
+
     setMapCenter({ lat: centerLat, lon: centerLon });
     setZoomLevel(optimalZoom);
     setMapBounds(bounds);
@@ -172,7 +183,7 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
   const resetMap = useCallback(() => {
     setMapCenter(initialCenter);
     setZoomLevel(CONFIG.WEATHER_MAPS.DEFAULT_ZOOM);
-    setActiveLayers(['clouds_new']);
+    setActiveLayers(["clouds_new"]);
     setLayerOpacity(CONFIG.WEATHER_MAPS.DEFAULT_OPACITY);
     setMapBounds(null);
     setError(null);
@@ -197,10 +208,10 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
     error,
     mapBounds,
     availableLayers,
-    
+
     // Refs
     mapRef,
-    
+
     // Actions
     updateMapCenter,
     updateZoomLevel,
@@ -211,15 +222,15 @@ export const useWeatherMaps = (initialCenter = { lat: 49.75, lon: 15.5 }) => {
     fitToBounds,
     resetMap,
     clearError,
-    
+
     // Utilities
     getTileUrl,
     getLayerInfo,
     getLayerLegend,
-    
+
     // Tile loading handlers
     handleTileLoadStart,
     handleTileLoadComplete,
-    handleTileLoadError
+    handleTileLoadError,
   };
 };

@@ -6,7 +6,8 @@ import { CONFIG } from '../../config/config.js';
 const WeatherMapsContainer = ({ 
   currentLocation = null,
   className = '',
-  height = '600px'
+  height = '600px',
+  showHeader = true
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [mapCenter, setMapCenter] = useState({ lat: 49.75, lon: 15.5 }); // Czech Republic center
@@ -39,14 +40,16 @@ const WeatherMapsContainer = ({
 
   return (
     <div className={`weather-maps-container ${className}`}>
-      <div className="maps-header">
-        <h2 className="maps-title">
-          🗺️ Meteorologické mapy
-        </h2>
-        <p className="maps-description">
-          Klikněte na mapu pro výběr lokace nebo prohlédněte meteorologické vrstvy
-        </p>
-      </div>
+      {showHeader && (
+        <div className="maps-header">
+          <h2 className="maps-title">
+            🗺️ Meteorologické mapy
+          </h2>
+          <p className="maps-description">
+            Klikněte na mapu pro výběr lokace nebo prohlédněte meteorologické vrstvy
+          </p>
+        </div>
+      )}
 
       <div className="maps-content">
         <WeatherMap

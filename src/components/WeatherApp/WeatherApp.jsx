@@ -7,7 +7,6 @@ import CurrentWeatherDisplay from '../WeatherDisplay/CurrentWeatherDisplay'
 import ForecastDisplay from '../WeatherDisplay/ForecastDisplay'
 import FavoriteCitiesWidget from '../FavoriteCities/FavoriteCitiesWidget'
 import WeatherChartsContainer from '../Charts/WeatherChartsContainer'
-import WeatherMapsContainer from '../WeatherMaps/WeatherMapsContainer'
 import LoadingSpinner from '../UI/LoadingSpinner'
 import ErrorMessage from '../UI/ErrorMessage'
 
@@ -67,14 +66,6 @@ const WeatherApp = () => {
             />
           </Grid>
         )}
-
-        {/* Weather Maps - zobrazí se vždy když je feature povolena */}
-        <Grid item xs={12}>
-          <WeatherMapsContainer 
-            currentLocation={currentWeather} 
-            height="500px"
-          />
-        </Grid>
       </Grid>
     </Box>
   )
