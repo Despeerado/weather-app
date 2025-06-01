@@ -59,23 +59,28 @@ const FavoriteCitiesWidget = () => {
   }
 
   return (
-    <Box sx={{ mb: 3 }}>
-      <Card elevation={3} sx={{ borderRadius: 3 }}>
+    <Box sx={{ mb: { xs: 2, sm: 3 } }}>
+      <Card elevation={3} sx={{ borderRadius: { xs: 2, sm: 3 } }}>
         <CardHeader
           avatar={
             <Badge badgeContent={favorites.length} color="primary">
-              <Star color="warning" />
+              <Star color="warning" sx={{ fontSize: { xs: 20, sm: 24 } }} />
             </Badge>
           }
           title="Oblíbená města"
-          titleTypographyProps={{ variant: 'h6', fontWeight: 600 }}
+          titleTypographyProps={{ 
+            variant: 'h6', 
+            fontWeight: 600,
+            fontSize: { xs: '1.1rem', sm: '1.25rem' }
+          }}
           action={
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 } }}>
               <Tooltip title="Vymazat vše">
                 <IconButton 
                   onClick={() => setShowClearDialog(true)}
                   color="error"
                   size="small"
+                  sx={{ fontSize: { xs: 18, sm: 20 } }}
                 >
                   <DeleteSweep />
                 </IconButton>
@@ -84,32 +89,55 @@ const FavoriteCitiesWidget = () => {
                 <IconButton 
                   onClick={() => setIsOpen(!isOpen)}
                   size="small"
+                  sx={{ fontSize: { xs: 18, sm: 20 } }}
                 >
                   {isOpen ? <ExpandLess /> : <ExpandMore />}
                 </IconButton>
               </Tooltip>
             </Box>
           }
-          sx={{ pb: 1 }}
+          sx={{ 
+            pb: 1,
+            px: { xs: 2, sm: 3 },
+            pt: { xs: 2, sm: 3 }
+          }}
         />
         
         <Collapse in={isOpen}>
-          <CardContent sx={{ pt: 0 }}>
+          <CardContent sx={{ 
+            pt: 0,
+            px: { xs: 0, sm: 0 },
+            pb: { xs: 1, sm: 2 }
+          }}>
             <List sx={{ py: 0 }}>
               {favorites.map((favorite, index) => (
                 <ListItem 
                   key={favorite.id} 
                   divider={index < favorites.length - 1}
                   disablePadding
+                  sx={{ px: { xs: 2, sm: 3 } }}
                 >
                   <ListItemButton
                     onClick={() => handleCityClick(favorite.name)}
-                    sx={{ py: 1 }}
+                    sx={{ 
+                      py: { xs: 1, sm: 1.5 },
+                      borderRadius: { xs: 1, sm: 2 },
+                      mx: { xs: 0, sm: 0 }
+                    }}
                   >
-                    <LocationOn color="action" sx={{ mr: 2 }} />
+                    <LocationOn 
+                      color="action" 
+                      sx={{ 
+                        mr: { xs: 1.5, sm: 2 },
+                        fontSize: { xs: 18, sm: 20 }
+                      }} 
+                    />
                     <ListItemText 
                       primary={favorite.name}
-                      primaryTypographyProps={{ fontWeight: 500 }}
+                      primaryTypographyProps={{ 
+                        fontWeight: 500,
+                        fontSize: { xs: '0.875rem', sm: '1rem' }
+                      }}
                     />
                   </ListItemButton>
                   <ListItemSecondaryAction>

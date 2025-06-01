@@ -17,9 +17,9 @@ const LoadingSpinner = ({ size = 'medium', message = 'Načítání...' }) => {
 
   const getPadding = () => {
     switch (size) {
-      case 'small': return 2
-      case 'large': return 6
-      default: return 4
+      case 'small': return { xs: 1, sm: 2 }
+      case 'large': return { xs: 4, sm: 6 }
+      default: return { xs: 3, sm: 4 }
     }
   }
   
@@ -46,7 +46,11 @@ const LoadingSpinner = ({ size = 'medium', message = 'Načítání...' }) => {
           color="text.secondary" 
           sx={{ 
             mt: size === 'large' ? 2 : 1,
-            fontSize: size === 'small' ? '0.75rem' : '0.875rem'
+            fontSize: { 
+              xs: size === 'small' ? '0.7rem' : '0.8rem',
+              sm: size === 'small' ? '0.75rem' : '0.875rem'
+            },
+            textAlign: 'center'
           }}
         >
           {message}

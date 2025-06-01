@@ -41,17 +41,34 @@ const SearchForm = () => {
   const isQueryFavorite = query.trim() && isFavorite(query)
 
   return (
-    <Card elevation={3} sx={{ borderRadius: 3 }}>
+    <Card elevation={3} sx={{ borderRadius: { xs: 2, sm: 3 } }}>
       <CardHeader
-        avatar={<Search color="primary" />}
+        avatar={<Search color="primary" sx={{ fontSize: { xs: 20, sm: 24 } }} />}
         title="Vyhledat město"
-        titleTypographyProps={{ variant: 'h6', fontWeight: 600 }}
-        sx={{ pb: 1 }}
+        titleTypographyProps={{ 
+          variant: 'h6', 
+          fontWeight: 600,
+          fontSize: { xs: '1.1rem', sm: '1.25rem' }
+        }}
+        sx={{ 
+          pb: 1,
+          px: { xs: 2, sm: 3 },
+          pt: { xs: 2, sm: 3 }
+        }}
       />
-      <CardContent sx={{ pt: 0 }}>
+      <CardContent sx={{ 
+        pt: 0, 
+        px: { xs: 2, sm: 3 },
+        pb: { xs: 2, sm: 3 }
+      }}>
         <Box component="form" onSubmit={handleSubmit}>
-          <Box sx={{ display: 'flex', gap: 1, alignItems: 'stretch' }}>
-            <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: { xs: 2, sm: 1 }, 
+            alignItems: 'stretch' 
+          }}>
+            <Box sx={{ flexGrow: 1, order: { xs: 1, sm: 1 } }}>
               <CityAutocomplete
                 value={query}
                 onChange={setQuery}
@@ -62,22 +79,29 @@ const SearchForm = () => {
               />
             </Box>
             
-            <IconButton
-              onClick={handleAddToFavorites}
-              disabled={!query.trim()}
-              color={isQueryFavorite ? 'warning' : 'default'}
-              title="Přidat do oblíbených"
-              sx={{ 
-                border: 1, 
-                borderColor: 'divider',
-                borderRadius: 1,
-                '&:hover': {
-                  borderColor: 'warning.main'
-                }
-              }}
-            >
-              {isQueryFavorite ? <Star /> : <StarBorder />}
-            </IconButton>
+            <Box sx={{ 
+              display: 'flex',
+              gap: 1,
+              order: { xs: 2, sm: 2 },
+              flexDirection: { xs: 'row', sm: 'row' }
+            }}>
+              <IconButton
+                onClick={handleAddToFavorites}
+                disabled={!query.trim()}
+                color={isQueryFavorite ? 'warning' : 'default'}
+                title="Přidat do oblíbených"
+                sx={{ 
+                  border: 1, 
+                  borderColor: 'divider',
+                  borderRadius: 1,
+                  minWidth: { xs: 48, sm: 'auto' },
+                  '&:hover': {
+                    borderColor: 'warning.main'
+                  }
+                }}
+              >
+                {isQueryFavorite ? <Star /> : <StarBorder />}
+              </IconButton>
 
             <Button
               type="submit"
@@ -90,10 +114,14 @@ const SearchForm = () => {
                   <Search />
                 )
               }
-              sx={{ minWidth: 120 }}
+              sx={{ 
+                minWidth: { xs: 100, sm: 120 },
+                fontSize: { xs: '0.875rem', sm: '1rem' }
+              }}
             >
               {loading ? 'Hledám...' : 'Hledat'}
             </Button>
+            </Box>
           </Box>
         </Box>
       </CardContent>

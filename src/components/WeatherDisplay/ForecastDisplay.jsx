@@ -47,17 +47,26 @@ const ForecastDisplay = ({ data }) => {
   }
 
   return (
-    <Card elevation={3} sx={{ height: '100%', borderRadius: 3 }}>
+    <Card elevation={3} sx={{ height: '100%', borderRadius: { xs: 2, sm: 3 } }}>
       <CardHeader
-        avatar={<CalendarMonth color="primary" />}
+        avatar={<CalendarMonth color="primary" sx={{ fontSize: { xs: 20, sm: 24 } }} />}
         title={
-          <Typography variant="h6" component="h5" fontWeight={600}>
+          <Typography 
+            variant="h6" 
+            component="h5" 
+            fontWeight={600}
+            sx={{ fontSize: { xs: '1.1rem', sm: '1.25rem' } }}
+          >
             5denní předpověď
           </Typography>
         }
-        sx={{ pb: 1 }}
+        sx={{ 
+          pb: 1,
+          px: { xs: 2, sm: 3 },
+          pt: { xs: 2, sm: 3 }
+        }}
       />
-      <CardContent sx={{ pt: 0, px: 0, pb: 2 }}>
+      <CardContent sx={{ pt: 0, px: 0, pb: { xs: 1, sm: 2 } }}>
         <List disablePadding>
           {daily.map((day, index) => {
             const mainWeather = getMainWeatherForDay(day.items)
@@ -67,21 +76,28 @@ const ForecastDisplay = ({ data }) => {
               <React.Fragment key={day.date.toDateString()}>
                 <ListItem
                   sx={{
-                    py: 2,
-                    px: 3,
+                    py: { xs: 1.5, sm: 2 },
+                    px: { xs: 2, sm: 3 },
                     backgroundColor: isToday ? 'primary.light' : 'transparent',
                     '&:hover': {
                       backgroundColor: isToday ? 'primary.light' : 'action.hover'
                     }
                   }}
                 >
-                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 2 }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    width: '100%', 
+                    gap: { xs: 1, sm: 2 },
+                    flexWrap: { xs: 'wrap', md: 'nowrap' }
+                  }}>
                     {/* Datum */}
-                    <Box sx={{ minWidth: 80 }}>
+                    <Box sx={{ minWidth: { xs: 60, sm: 80 } }}>
                       <Typography 
                         variant="body1" 
                         fontWeight={isToday ? 600 : 400}
                         color={isToday ? 'primary.main' : 'text.primary'}
+                        sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
                       >
                         {isToday ? 'Dnes' : formatDate(day.date)}
                       </Typography>
@@ -91,15 +107,26 @@ const ForecastDisplay = ({ data }) => {
                     <Avatar
                       src={`https://openweathermap.org/img/wn/${mainWeather.icon}.png`}
                       alt={mainWeather.description}
-                      sx={{ width: 48, height: 48 }}
+                      sx={{ 
+                        width: { xs: 40, sm: 48 }, 
+                        height: { xs: 40, sm: 48 }
+                      }}
                     />
                     
                     {/* Popis počasí */}
-                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                    <Box sx={{ 
+                      flexGrow: 1, 
+                      minWidth: { xs: 100, sm: 120 },
+                      order: { xs: 3, md: 3 },
+                      width: { xs: '100%', md: 'auto' }
+                    }}>
                       <Typography 
                         variant="body2" 
                         color="text.secondary"
-                        sx={{ textTransform: 'capitalize' }}
+                        sx={{ 
+                          textTransform: 'capitalize',
+                          fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                        }}
                         noWrap
                       >
                         {mainWeather.description}
@@ -107,17 +134,40 @@ const ForecastDisplay = ({ data }) => {
                     </Box>
                     
                     {/* Teploty */}
-                    <Box sx={{ textAlign: 'right', minWidth: 80 }}>
-                      <Typography component="span" variant="body1" fontWeight={600} color="primary.main">
+                    <Box sx={{ 
+                      textAlign: 'right', 
+                      minWidth: { xs: 60, sm: 80 },
+                      order: { xs: 1, md: 4 }
+                    }}>
+                      <Typography 
+                        component="span" 
+                        variant="body1" 
+                        fontWeight={600} 
+                        color="primary.main"
+                        sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+                      >
                         {day.maxTemp}°
                       </Typography>
-                      <Typography component="span" variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
+                      <Typography 
+                        component="span" 
+                        variant="body2" 
+                        color="text.secondary" 
+                        sx={{ 
+                          ml: 0.5,
+                          fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                        }}
+                      >
                         / {day.minTemp}°
                       </Typography>
                     </Box>
                     
                     {/* Detaily počasí */}
-                    <Box sx={{ display: 'flex', gap: 1, minWidth: 160 }}>
+                    <Box sx={{ 
+                      display: { xs: 'none', sm: 'flex' }, 
+                      gap: 1, 
+                      minWidth: { sm: 140, md: 160 },
+                      order: { xs: 4, md: 5 }
+                    }}>
                       <Chip 
                         icon={<Water />}
                         label={`${mainWeather.humidity}%`}

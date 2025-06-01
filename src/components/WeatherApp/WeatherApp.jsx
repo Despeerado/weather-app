@@ -1,5 +1,6 @@
-// Main Weather Application component using Bootstrap
+// Main Weather Application component using MUI
 import React from 'react'
+import { Box, Grid } from '@mui/material'
 import { useWeather } from '../../contexts/WeatherContext'
 import SearchForm from '../SearchForm/SearchForm'
 import CurrentWeatherDisplay from '../WeatherDisplay/CurrentWeatherDisplay'
@@ -12,44 +13,52 @@ const WeatherApp = () => {
   const { currentWeather, forecast, loading, error } = useWeather()
 
   return (
-    <div className="weather-spacing">
-      <div className="row g-4">
-        {/* Search and Favorites */}
-        <div className="col-12">
+    <Box sx={{ width: '100%' }}>
+      <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+        {/* Search Form - Full width on all devices */}
+        <Grid item xs={12}>
           <SearchForm />
-        </div>
-        <div className="col-12">
-          <FavoriteCitiesWidget />
-        </div>
+        </Grid>
         
-        {/* Loading and Error States */}
+        {/* Favorites Widget - Full width on all devices */}
+        <Grid item xs={12}>
+          <FavoriteCitiesWidget />
+        </Grid>
+        
+        {/* Loading State - Full width */}
         {loading && (
-          <div className="col-12">
+          <Grid item xs={12}>
             <LoadingSpinner />
-          </div>
+          </Grid>
         )}
+        
+        {/* Error State - Full width */}
         {error && (
-          <div className="col-12">
+          <Grid item xs={12}>
             <ErrorMessage message={error} />
-          </div>
+          </Grid>
         )}
         
         {/* Weather Content */}
         {currentWeather && (
           <>
-            <div className="col-12 col-lg-6">
+            {/* Current Weather - Full width on mobile, half on desktop */}
+            <Grid item xs={12} lg={6}>
               <CurrentWeatherDisplay data={currentWeather} />
-            </div>
+            </Grid>
+            
+            {/* Forecast - Full width on mobile, half on desktop */}
             {forecast && (
-              <div className="col-12 col-lg-6">
+              <Grid item xs={12} lg={6}>
                 <ForecastDisplay data={forecast} />
-              </div>
+              </Grid>
             )}
           </>
         )}
-      </div>
-    </div>
+      </Grid>
+    </Box>
   )
+  
 }
 
 

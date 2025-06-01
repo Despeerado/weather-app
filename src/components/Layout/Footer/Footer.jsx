@@ -11,20 +11,25 @@ const Footer = () => {
         borderTop: 1, 
         borderColor: 'divider',
         mt: 'auto',
-        py: 4
+        py: { xs: 3, md: 4 }
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={2}>
+      <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
+        <Grid container spacing={{ xs: 1, md: 2 }}>
           <Grid item xs={12} md={6}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
               &copy; 2025 Počasník Weather App. Všechna práva vyhrazena.
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', md: 'flex-end' }, alignItems: 'center' }}>
-              <CloudQueue sx={{ mr: 1, fontSize: 16 }} color="action" />
-              <Typography variant="body2" color="text.secondary">
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: { xs: 'flex-start', md: 'flex-end' }, 
+              alignItems: 'center',
+              mt: { xs: 1, md: 0 }
+            }}>
+              <CloudQueue sx={{ mr: 1, fontSize: { xs: 14, sm: 16 } }} color="action" />
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 Powered by OpenWeatherMap API
               </Typography>
             </Box>

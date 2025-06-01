@@ -64,76 +64,123 @@ const CurrentWeatherDisplay = ({ data }) => {
     <Card 
       elevation={3}
       sx={{ 
-        borderRadius: 3,
+        borderRadius: { xs: 2, sm: 3 },
         background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05))',
-        backdropFilter: 'blur(10px)'
+        backdropFilter: 'blur(10px)',
+        height: '100%'
       }}
     >
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
         {/* Header s lokací */}
-        <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 600 }}>
+        <Typography 
+          variant="h4" 
+          component="h2" 
+          gutterBottom 
+          sx={{ 
+            fontWeight: 600,
+            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' }
+          }}
+        >
           {name}, {country}
         </Typography>
 
         {/* Hlavní informace o počasí */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'center', sm: 'center' }, 
+          mb: 3, 
+          gap: { xs: 2, sm: 3 },
+          textAlign: { xs: 'center', sm: 'left' }
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center', 
+            gap: { xs: 1, sm: 2 }
+          }}>
             <Typography 
               variant="h1" 
               component="div" 
               color="primary" 
-              sx={{ fontWeight: 'bold', lineHeight: 1 }}
+              sx={{ 
+                fontWeight: 'bold', 
+                lineHeight: 1,
+                fontSize: { xs: '3rem', sm: '4rem', md: '5rem' }
+              }}
             >
               {temperature}°C
             </Typography>
             <Avatar
               src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
               alt={description}
-              sx={{ width: 80, height: 80 }}
+              sx={{ 
+                width: { xs: 60, sm: 80 }, 
+                height: { xs: 60, sm: 80 }
+              }}
             />
           </Box>
           
           <Box sx={{ flexGrow: 1 }}>
-            <Typography variant="h6" sx={{ textTransform: 'capitalize', mb: 1 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                textTransform: 'capitalize', 
+                mb: 1,
+                fontSize: { xs: '1.1rem', sm: '1.25rem' }
+              }}
+            >
               {description}
             </Typography>
             <Chip 
               label={`Pocitově ${feelsLike}°C`}
               variant="outlined"
               color="info"
+              size="small"
             />
           </Box>
         </Box>
 
-        <Divider sx={{ my: 3 }} />
+        <Divider sx={{ my: { xs: 2, sm: 3 } }} />
 
         {/* Detailní informace */}
-        <Grid container spacing={2}>
+        <Grid container spacing={{ xs: 1, sm: 2 }}>
           {weatherDetails.map((detail, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={6} sm={6} md={4} key={index}>
               <Box 
                 sx={{ 
                   display: 'flex', 
-                  alignItems: 'center', 
-                  gap: 1.5,
-                  p: 2,
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: { xs: 'center', sm: 'center' },
+                  gap: { xs: 0.5, sm: 1.5 },
+                  p: { xs: 1, sm: 2 },
                   borderRadius: 2,
                   backgroundColor: 'background.paper',
                   transition: 'all 0.2s ease',
+                  textAlign: { xs: 'center', sm: 'left' },
                   '&:hover': {
                     backgroundColor: 'action.hover',
                     transform: 'translateY(-2px)'
                   }
                 }}
               >
-                <Box sx={{ color: 'primary.main' }}>
+                <Box sx={{ color: 'primary.main', fontSize: { xs: 16, sm: 24 } }}>
                   {detail.icon}
                 </Box>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="body2" color="text.secondary">
+                <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                  <Typography 
+                    variant="body2" 
+                    color="text.secondary"
+                    sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}
+                  >
                     {detail.label}
                   </Typography>
-                  <Typography variant="body1" fontWeight={600}>
+                  <Typography 
+                    variant="body1" 
+                    fontWeight={600}
+                    sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+                    noWrap
+                  >
                     {detail.value}
                   </Typography>
                 </Box>

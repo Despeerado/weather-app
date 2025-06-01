@@ -14,15 +14,16 @@ const Header = () => {
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{ px: { xs: 2, sm: 3 } }}>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-          <CloudQueue sx={{ mr: 1}} />
+          <CloudQueue sx={{ mr: 1, fontSize: { xs: 24, sm: 28 } }} />
           <Typography 
             variant="h6" 
             component="div" 
             sx={{ 
               fontWeight: 700,
-              textDecoration: 'none'
+              textDecoration: 'none',
+              fontSize: { xs: '1.1rem', sm: '1.25rem' }
             }}
           >
             Počasník
