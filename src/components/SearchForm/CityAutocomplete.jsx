@@ -10,7 +10,9 @@ import {
   CircularProgress, 
   Box,
   Typography,
-  InputAdornment
+  InputAdornment,
+  Portal,
+  ClickAwayListener
 } from '@mui/material'
 import { LocationOn } from '@mui/icons-material'
 import { useDebounce } from '../../hooks/useDebounce'
@@ -20,9 +22,21 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
   const [suggestions, setSuggestions] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
   const debouncedValue = useDebounce(value, 300)
   const inputRef = useRef(null)
-  const listRef = useRef(null)
+
+  // Handle click away from autocomplete
+  const handleClickAway = () => {
+    setIsOpen(false)
+  }
+
+  // Update anchor element when input ref changes
+  useEffect(() => {
+    if (inputRef.current) {
+      setAnchorEl(inputRef.current)
+    }
+  }, [inputRef.current])
 
   useEffect(() => {
     if (debouncedValue && debouncedValue.length >= 2) {
@@ -56,6 +70,21 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
     setSuggestions([])
   }
 
+  // Calculate dropdown position
+  const getDropdownStyle = () => {
+    if (!anchorEl) return {}
+    
+    const rect = anchorEl.getBoundingClientRect()
+    return {
+      position: 'fixed',
+      top: rect.bottom + 4,
+      left: rect.left,
+      width: rect.width,
+      zIndex: 9999,
+      maxHeight: 300,
+    }
+  }
+
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
       <TextField
@@ -84,51 +113,51 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
         }}
       />
 
-      {isOpen && suggestions.length > 0 && (
-        <Paper
-          elevation={8}
-          sx={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            zIndex: 1300,
-            mt: 0.5,
-            maxHeight: 300,
-            overflow: 'auto',
-            borderRadius: 2,
-          }}
-        >
-          <List sx={{ py: 0 }}>
-            {suggestions.map((city, index) => (
-              <ListItem key={`${city.name}-${city.country}-${index}`} disablePadding>
-                <ListItemButton
-                  onClick={() => handleSelect(city)}
-                  sx={{
-                    py: 1.5,
-                    '&:hover': {
-                      backgroundColor: 'action.hover',
-                    }
-                  }}
-                >
-                  <ListItemText
-                    primary={
-                      <Typography variant="body1" fontWeight={500}>
-                        {city.name}
-                      </Typography>
-                    }
-                    secondary={
-                      <Typography variant="body2" color="text.secondary">
-                        {city.state && `${city.state}, `}{city.country}
-                      </Typography>
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
-      )}
+        <Portal>
+          {isOpen && suggestions.length > 0 && (
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <Paper
+                elevation={8}
+                sx={{
+                  ...getDropdownStyle(),
+                  overflow: 'auto',
+                  borderRadius: 2,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                <List sx={{ py: 0 }}>
+                  {suggestions.map((city, index) => (
+                    <ListItem key={`${city.name}-${city.country}-${index}`} disablePadding>
+                      <ListItemButton
+                        onClick={() => handleSelect(city)}
+                        sx={{
+                          py: 1.5,
+                          '&:hover': {
+                            backgroundColor: 'action.hover',
+                          }
+                        }}
+                      >
+                        <ListItemText
+                          primary={
+                            <Typography variant="body1" fontWeight={500}>
+                              {city.name}
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography variant="body2" color="text.secondary">
+                              {city.state && `${city.state}, `}{city.country}
+                            </Typography>
+                          }
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
+            </ClickAwayListener>
+          )}
+        </Portal>
     </Box>
   )
 }

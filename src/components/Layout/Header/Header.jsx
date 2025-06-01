@@ -16,13 +16,12 @@ const Header = () => {
     >
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-          <CloudQueue sx={{ mr: 1, color: 'primary.main' }} />
+          <CloudQueue sx={{ mr: 1}} />
           <Typography 
             variant="h6" 
             component="div" 
             sx={{ 
               fontWeight: 700,
-              color: 'primary.main',
               textDecoration: 'none'
             }}
           >
