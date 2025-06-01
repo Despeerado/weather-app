@@ -1,5 +1,23 @@
-// ForecastDisplay component using Bootstrap
+// ForecastDisplay component using MUI
 import React from 'react'
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  Box,
+  Avatar,
+  Chip,
+  List,
+  ListItem,
+  Divider
+} from '@mui/material'
+import {
+  CalendarMonth,
+  Water,
+  Air,
+  Umbrella
+} from '@mui/icons-material'
 
 const ForecastDisplay = ({ data }) => {
   if (!data || !data.daily) return null
@@ -29,74 +47,112 @@ const ForecastDisplay = ({ data }) => {
   }
 
   return (
-    <div className="card weather-card h-100">
-      <div className="card-header">
-        <h5 className="card-title mb-0">
-          <i className="bi bi-calendar3 me-2"></i>
-          5denní předpověď
-        </h5>
-      </div>
-      <div className="card-body p-0">
-        <div className="list-group list-group-flush">
+    <Card elevation={3} sx={{ height: '100%', borderRadius: 3 }}>
+      <CardHeader
+        avatar={<CalendarMonth color="primary" />}
+        title={
+          <Typography variant="h6" component="h5" fontWeight={600}>
+            5denní předpověď
+          </Typography>
+        }
+        sx={{ pb: 1 }}
+      />
+      <CardContent sx={{ pt: 0, px: 0, pb: 2 }}>
+        <List disablePadding>
           {daily.map((day, index) => {
             const mainWeather = getMainWeatherForDay(day.items)
             const isToday = index === 0
             
             return (
-              <div 
-                key={day.date.toDateString()} 
-                className={`list-group-item d-flex align-items-center justify-content-between ${isToday ? 'bg-primary bg-opacity-10' : ''}`}
-              >
-                <div className="d-flex align-items-center flex-grow-1">
-                  <div className="me-3" style={{ minWidth: '80px' }}>
-                    <strong className={isToday ? 'text-primary' : ''}>
-                      {isToday ? 'Dnes' : formatDate(day.date)}
-                    </strong>
-                  </div>
-                  
-                  <div className="me-3">
-                    <img 
+              <React.Fragment key={day.date.toDateString()}>
+                <ListItem
+                  sx={{
+                    py: 2,
+                    px: 3,
+                    backgroundColor: isToday ? 'primary.light' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: isToday ? 'primary.light' : 'action.hover'
+                    }
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', gap: 2 }}>
+                    {/* Datum */}
+                    <Box sx={{ minWidth: 80 }}>
+                      <Typography 
+                        variant="body1" 
+                        fontWeight={isToday ? 600 : 400}
+                        color={isToday ? 'primary.main' : 'text.primary'}
+                      >
+                        {isToday ? 'Dnes' : formatDate(day.date)}
+                      </Typography>
+                    </Box>
+                    
+                    {/* Ikona počasí */}
+                    <Avatar
                       src={`https://openweathermap.org/img/wn/${mainWeather.icon}.png`}
                       alt={mainWeather.description}
-                      title={mainWeather.description}
-                      className="weather-icon small"
+                      sx={{ width: 48, height: 48 }}
                     />
-                  </div>
-                  
-                  <div className="me-3 flex-grow-1">
-                    <div className="weather-description small text-muted">
-                      {mainWeather.description}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="d-flex align-items-center">
-                  <div className="me-3 text-end">
-                    <span className="fw-bold text-primary">{day.maxTemp}°</span>
-                    <span className="text-muted small"> / {day.minTemp}°</span>
-                  </div>
-                  
-                  <div className="d-flex gap-2 text-muted small">
-                    <span title="Vlhkost">
-                      <i className="bi bi-droplet"></i> {mainWeather.humidity}%
-                    </span>
-                    <span title="Vítr">
-                      <i className="bi bi-wind"></i> {mainWeather.windSpeed}m/s
-                    </span>
-                    {mainWeather.pop > 0 && (
-                      <span title="Pravděpodobnost srážek" className="text-info">
-                        <i className="bi bi-umbrella"></i> {Math.round(mainWeather.pop * 100)}%
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
+                    
+                    {/* Popis počasí */}
+                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                      <Typography 
+                        variant="body2" 
+                        color="text.secondary"
+                        sx={{ textTransform: 'capitalize' }}
+                        noWrap
+                      >
+                        {mainWeather.description}
+                      </Typography>
+                    </Box>
+                    
+                    {/* Teploty */}
+                    <Box sx={{ textAlign: 'right', minWidth: 80 }}>
+                      <Typography component="span" variant="body1" fontWeight={600} color="primary.main">
+                        {day.maxTemp}°
+                      </Typography>
+                      <Typography component="span" variant="body2" color="text.secondary" sx={{ ml: 0.5 }}>
+                        / {day.minTemp}°
+                      </Typography>
+                    </Box>
+                    
+                    {/* Detaily počasí */}
+                    <Box sx={{ display: 'flex', gap: 1, minWidth: 160 }}>
+                      <Chip 
+                        icon={<Water />}
+                        label={`${mainWeather.humidity}%`}
+                        size="small"
+                        variant="outlined"
+                        color="info"
+                      />
+                      <Chip 
+                        icon={<Air />}
+                        label={`${mainWeather.windSpeed}m/s`}
+                        size="small"
+                        variant="outlined"
+                        color="info"
+                      />
+                      {mainWeather.pop > 0 && (
+                        <Chip 
+                          icon={<Umbrella />}
+                          label={`${Math.round(mainWeather.pop * 100)}%`}
+                          size="small"
+                          variant="outlined"
+                          color="warning"
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                </ListItem>
+                {index < daily.length - 1 && <Divider />}
+              </React.Fragment>
             )
           })}
-        </div>
-      </div>
-    </div>
+        </List>
+      </CardContent>
+    </Card>
   )
 }
+
 
 export default ForecastDisplay

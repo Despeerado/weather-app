@@ -1,21 +1,38 @@
-// Header component using Bootstrap
+// Header component using MUI
 import React from 'react'
+import { AppBar, Toolbar, Typography, Box } from '@mui/material'
+import { CloudQueue } from '@mui/icons-material'
 import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher'
 
 const Header = () => {
   return (
-    <nav className="navbar navbar-expand-lg sticky-navbar">
-      <div className="container">
-        <a className="navbar-brand d-flex align-items-center" href="/">
-          <i className="bi bi-cloud-sun me-2"></i>
-          Počasník
-        </a>
+    <AppBar 
+      position="sticky" 
+      sx={{ 
+        backdropFilter: 'blur(10px)',
+        color: 'text.primary',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <Toolbar>
+        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+          <CloudQueue sx={{ mr: 1, color: 'primary.main' }} />
+          <Typography 
+            variant="h6" 
+            component="div" 
+            sx={{ 
+              fontWeight: 700,
+              color: 'primary.main',
+              textDecoration: 'none'
+            }}
+          >
+            Počasník
+          </Typography>
+        </Box>
         
-        <div className="d-flex align-items-center">
-          <ThemeSwitcher />
-        </div>
-      </div>
-    </nav>
+        <ThemeSwitcher />
+      </Toolbar>
+    </AppBar>
   )
 }
 

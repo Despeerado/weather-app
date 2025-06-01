@@ -1,5 +1,21 @@
-// SearchForm component using Bootstrap
+// SearchForm component using MUI
 import React, { useState } from 'react'
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Box,
+  TextField,
+  IconButton,
+  Button,
+  InputAdornment,
+  CircularProgress
+} from '@mui/material'
+import {
+  Search,
+  Star,
+  StarBorder
+} from '@mui/icons-material'
 import { useWeather } from '../../contexts/WeatherContext'
 import { useFavorites } from '../../contexts/FavoritesContext'
 import CityAutocomplete from './CityAutocomplete'
@@ -22,50 +38,69 @@ const SearchForm = () => {
     }
   }
 
+  const isQueryFavorite = query.trim() && isFavorite(query)
+
   return (
-    <div className="card weather-card">
-      <div className="card-body">
-        <h5 className="card-title mb-3">
-          <i className="bi bi-search me-2"></i>
-          Vyhledat město
-        </h5>
-        <form onSubmit={handleSubmit}>
-          <div className="input-group search-form">
-            <CityAutocomplete
-              value={query}
-              onChange={setQuery}
-              onSelect={(city) => {
-                setQuery(city)
-                searchWeather(city)
-              }}
-              className="form-control"
-            />
-            <button
-              type="button"
-              className={`btn btn-outline-warning ${isFavorite(query) ? 'active' : ''}`}
+    <Card elevation={3} sx={{ borderRadius: 3 }}>
+      <CardHeader
+        avatar={<Search color="primary" />}
+        title="Vyhledat město"
+        titleTypographyProps={{ variant: 'h6', fontWeight: 600 }}
+        sx={{ pb: 1 }}
+      />
+      <CardContent sx={{ pt: 0 }}>
+        <Box component="form" onSubmit={handleSubmit}>
+          <Box sx={{ display: 'flex', gap: 1, alignItems: 'stretch' }}>
+            <Box sx={{ flexGrow: 1 }}>
+              <CityAutocomplete
+                value={query}
+                onChange={setQuery}
+                onSelect={(city) => {
+                  setQuery(city)
+                  searchWeather(city)
+                }}
+              />
+            </Box>
+            
+            <IconButton
               onClick={handleAddToFavorites}
               disabled={!query.trim()}
+              color={isQueryFavorite ? 'warning' : 'default'}
               title="Přidat do oblíbených"
+              sx={{ 
+                border: 1, 
+                borderColor: 'divider',
+                borderRadius: 1,
+                '&:hover': {
+                  borderColor: 'warning.main'
+                }
+              }}
             >
-              <i className="bi bi-star"></i>
-            </button>
-            <button
+              {isQueryFavorite ? <Star /> : <StarBorder />}
+            </IconButton>
+
+            <Button
               type="submit"
-              className="btn btn-weather"
+              variant="contained"
               disabled={loading || !query.trim()}
+              startIcon={
+                loading ? (
+                  <CircularProgress size={20} color="inherit" />
+                ) : (
+                  <Search />
+                )
+              }
+              sx={{ minWidth: 120 }}
             >
-              {loading ? (
-                <i className="bi bi-arrow-clockwise spin"></i>
-              ) : (
-                <i className="bi bi-search"></i>
-              )}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+              {loading ? 'Hledám...' : 'Hledat'}
+            </Button>
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
   )
 }
+
 
 
 export default SearchForm

@@ -5,7 +5,6 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import { FavoritesProvider } from './contexts/FavoritesContext'
 import Layout from './components/Layout/Layout'
 import WeatherApp from './components/WeatherApp/WeatherApp'
-import MuiDemoCard from './components/UI/MuiDemoCard'
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
         <FavoritesProvider>
           <WeatherProvider>
             <Layout>
-              <MuiDemoCard />
               <WeatherApp />
             </Layout>
           </WeatherProvider>

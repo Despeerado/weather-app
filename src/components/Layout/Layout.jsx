@@ -1,19 +1,20 @@
-// Layout component using Bootstrap
+// Layout component using MUI
 import React from 'react'
+import { Box, Container } from '@mui/material'
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 
 const Layout = ({ children }) => {
   return (
-    <div className="d-flex flex-column min-vh-100">
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header />
-      <main className="flex-grow-1 container-fluid py-4">
-        <div className="container">
+      <Box component="main" sx={{ flexGrow: 1, py: 4 }}>
+        <Container maxWidth="lg">
           {children}
-        </div>
-      </main>
+        </Container>
+      </Box>
       <Footer />
-    </div>
+    </Box>
   )
 }
 
