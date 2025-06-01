@@ -6,7 +6,7 @@ import { FavoritesProvider } from './contexts/FavoritesContext'
 import Layout from './components/Layout/Layout'
 import WeatherApp from './components/WeatherApp/WeatherApp'
 
-function App() {
+const App: React.FC = () => {
   return (
     <Router>
       <ThemeProvider>

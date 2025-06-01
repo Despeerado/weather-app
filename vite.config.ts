@@ -4,7 +4,11 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      include: "**/*.{jsx,tsx}",
+    }),
+  ],
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
