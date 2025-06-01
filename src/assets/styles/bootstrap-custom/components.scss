@@ -4,7 +4,6 @@
 // === NAVBAR CUSTOMIZATIONS ===
 .navbar {
   backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.95) !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   transition: $transition-base;
 
@@ -32,15 +31,15 @@
 // === CARD CUSTOMIZATIONS ===
 .card {
   border: none;
-  box-shadow: $card-box-shadow;
-  transition: $transition-base;
+  // box-shadow: $card-box-shadow;
+  // transition: $transition-base;
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 10px 25px -5px rgba(0, 0, 0, 0.1),
-      0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
+  // &:hover {
+  //   transform: translateY(-2px);
+  //   box-shadow:
+  //     0 10px 25px -5px rgba(0, 0, 0, 0.1),
+  //     0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  // }
 
   .card-header {
     background: transparent;
@@ -56,12 +55,8 @@
     rgba(37, 99, 235, 0.1),
     rgba(59, 130, 246, 0.05)
   );
-  border-left: 4px solid $primary;
 
   &.current-weather {
-    background: linear-gradient(135deg, $primary, lighten($primary, 10%));
-    color: white;
-
     .card-title,
     .card-text {
       color: white;

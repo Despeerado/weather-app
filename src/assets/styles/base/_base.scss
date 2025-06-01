@@ -51,20 +51,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
-
-main {
-  flex-grow: 1; // Zajistí, že main element vyplní dostupný prostor
-  // Zde mohou být další výchozí styly pro main, pokud jsou potřeba
-}
-
-[data-bs-theme="dark"] {
-  .navbar {
-    background-color: #2a3441; // Mírně světlejší než #1e293b (vaše $dark)
-    color: #f8fafc; // Vaše $light barva
-  }
-
-  main {
-    background-color: #2a3441; // Mírně světlejší než #1e293b (vaše $dark)
-    color: #f8fafc; // Vaše $light barva
-  }
-}

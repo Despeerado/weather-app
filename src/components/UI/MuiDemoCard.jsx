@@ -25,7 +25,7 @@ const MuiDemoCard = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" component="h2" gutterBottom>
-        MUI Demo komponenta
+        Aktuální počasí
       </Typography>
       
       <Grid container spacing={3}>

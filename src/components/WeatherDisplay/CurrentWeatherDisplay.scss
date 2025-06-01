@@ -1,6 +1,5 @@
 // CurrentWeatherDisplay component styles
 .current-weather {
-  background: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: 1rem;
   padding: 1.5rem;
@@ -18,7 +17,6 @@
       margin: 0 0 1rem 0;
       font-size: 1.5rem;
       font-weight: 600;
-      color: var(--text-primary);
     }
 
     .main-info {
@@ -34,7 +32,6 @@
         .temperature {
           font-size: 3rem;
           font-weight: bold;
-          color: var(--primary-color);
           line-height: 1;
         }
 
@@ -52,13 +49,11 @@
           margin: 0 0 0.5rem 0;
           font-size: 1.1rem;
           font-weight: 500;
-          color: var(--text-primary);
           text-transform: capitalize;
         }
 
         .feels-like {
           margin: 0;
-          color: var(--text-secondary);
           font-size: 0.9rem;
         }
       }
@@ -75,16 +70,9 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.75rem;
-      background: var(--bg-secondary);
       border-radius: 0.5rem;
-      transition: var(--transition-base);
-
-      &:hover {
-        background: var(--dropdown-hover);
-      }
 
       i {
-        color: var(--primary-color);
         font-size: 1.1rem;
         width: 20px;
         text-align: center;
@@ -93,12 +81,10 @@
       .label {
         flex: 1;
         font-size: 0.9rem;
-        color: var(--text-secondary);
       }
 
       .value {
         font-weight: 600;
-        color: var(--text-primary);
         font-size: 0.9rem;
       }
     }
