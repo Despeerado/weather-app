@@ -214,10 +214,12 @@
 @media (max-width: 480px) {
   .weather-map-container {
     border-radius: 12px;
+    min-height: 320px; /* Menší výška pro velmi malé obrazovky */
   }
   
   .weather-map .leaflet-container {
     border-radius: 12px;
+    min-height: 320px !important;
   }
   
   .map-error-overlay {
@@ -233,6 +235,37 @@
   .map-error-button {
     padding: 6px 12px;
     font-size: 11px;
+  }
+}
+
+/* Specifické styly pro 320px zařízení */
+@media (max-width: 360px) {
+  .weather-map-container {
+    min-height: 280px;
+    border-radius: 8px;
+  }
+  
+  .weather-map .leaflet-container {
+    min-height: 280px !important;
+    border-radius: 8px;
+  }
+  
+  .weather-map .leaflet-control-zoom {
+    border-radius: 6px;
+    transform: scale(0.9); /* Zmenšíme ovládání na velmi malých obrazovkách */
+  }
+  
+  .weather-map .leaflet-control-zoom a {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  
+  .weather-map .leaflet-control-attribution {
+    font-size: 8px;
+    padding: 2px 4px;
   }
 }
 

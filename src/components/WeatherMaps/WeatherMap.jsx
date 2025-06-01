@@ -161,7 +161,8 @@ const WeatherMap = ({
         padding: '5px',
         borderRadius: '5px',
         fontSize: '12px',
-        zIndex: 1001
+        zIndex: 1001,
+        display: window.innerWidth > 768 ? 'block' : 'none' // Skryjeme na mobilu
       }}>
         Map: {mapCenter.lat.toFixed(2)}, {mapCenter.lon.toFixed(2)} | Zoom: {zoomLevel} | Layers: {activeLayers.length}
       </div>
