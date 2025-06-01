@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { useWeatherMaps } from '../../hooks/useWeatherMaps.js';
 import WeatherMapControls from './WeatherMapControls.jsx';
 import WeatherMapLegend from './WeatherMapLegend.jsx';
+import WeatherMapSpinner from '../UI/WeatherMapSpinner.jsx';
 import './WeatherMaps.css';
 
 // Fix for default markers in react-leaflet
@@ -102,17 +103,16 @@ const WeatherMap = ({
       <div style={{
         height,
         minHeight: '400px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        position: 'relative',
         background: 'rgba(255,255,255,0.1)',
         borderRadius: '20px',
         border: '1px solid rgba(255,255,255,0.2)'
       }}>
-        <div style={{ textAlign: 'center', color: '#666' }}>
-          <p>⚠️ Načítání mapy...</p>
-          <p>Pokud se mapa nenačítá, zkontrolujte internetové připojení</p>
-        </div>
+        <WeatherMapSpinner 
+          variant="initialization"
+          size="large"
+          showIcons={true}
+        />
       </div>
     );
   }
@@ -208,9 +208,11 @@ const WeatherMap = ({
 
       {/* Loading overlay */}
       {isLoading && (
-        <div className="map-loading-overlay">
-          <div className="map-loading-spinner">🔄 Načítám meteorologické vrstvy...</div>
-        </div>
+        <WeatherMapSpinner 
+          variant="tiles"
+          size="medium"
+          showIcons={true}
+        />
       )}
 
       {/* Error overlay */}
