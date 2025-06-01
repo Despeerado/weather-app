@@ -1,6 +1,6 @@
 // WeatherMapsPage.jsx - Standalone page for weather maps
 import React from 'react';
-import { Box, Typography, Container, Breadcrumbs, Link } from '@mui/material';
+import { Box, Typography, Breadcrumbs, Link } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { Home, Map } from '@mui/icons-material';
@@ -31,12 +31,18 @@ const WeatherMapsPage = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3 } }}>
+    <Box sx={{ 
+      py: { xs: 1, sm: 2 },
+      px: { xs: 1, sm: 2, md: 3 }, // Minimální padding pro obsah
+      width: '100%',
+      maxWidth: '100vw' // Zajistíme plnou šířku viewportu
+    }}>
       {/* Breadcrumb Navigation */}
       <Breadcrumbs 
         aria-label="breadcrumb" 
         sx={{ 
-          mb: 3,
+          mb: 2,
+          mx: { xs: 1, sm: 2 }, // Breadcrumbs s padding od okrajů
           '& .MuiBreadcrumbs-separator': {
             color: 'text.secondary'
           }
@@ -62,7 +68,11 @@ const WeatherMapsPage = () => {
         </Box>
       </Breadcrumbs>
 
-      <Box sx={glassmorphismStyles}>
+      <Box sx={{
+        ...glassmorphismStyles,
+        mx: { xs: 0, sm: 1, md: 2 }, // Na mobilu bez margin, na větších zařízeních s margin
+        px: { xs: 1, sm: 2, md: 3 }, // Padding uvnitř boxu
+      }}>
         <Typography 
           variant="h4" 
           component="h1" 
@@ -96,12 +106,13 @@ const WeatherMapsPage = () => {
 
         <Box sx={{ 
           height: { xs: '60vh', sm: '70vh', md: '75vh' }, 
-          minHeight: { xs: '400px', sm: '500px', md: '600px' }
+          minHeight: { xs: '400px', sm: '500px', md: '600px' },
+          width: '100%' // Zajistíme plnou šířku kontejneru
         }}>
           <WeatherMapsContainer height="100%" showHeader={false} />
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

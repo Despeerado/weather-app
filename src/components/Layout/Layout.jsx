@@ -2,11 +2,17 @@
 import React from 'react'
 import { Box, Container } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { useLocation } from 'react-router-dom'
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 
 const Layout = ({ children }) => {
   const theme = useTheme()
+  const location = useLocation()
+  
+  // Stránky, které potřebují plnou šířku (bez Container)
+  const fullWidthPages = ['/maps']
+  const isFullWidth = fullWidthPages.includes(location.pathname)
   
   return (
     <Box 
@@ -23,14 +29,22 @@ const Layout = ({ children }) => {
         component="main" 
         sx={{ 
           flexGrow: 1, 
-          py: { xs: 2, sm: 3, md: 4 },
+          py: isFullWidth ? { xs: 1, sm: 2 } : { xs: 2, sm: 3, md: 4 },
           position: 'relative',
           zIndex: 1,
         }}
       >
-        <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
-          {children}
-        </Container>
+        {isFullWidth ? (
+          // Plná šířka pro mapy
+          <Box sx={{ px: 0 }}>
+            {children}
+          </Box>
+        ) : (
+          // Standardní Container pro ostatní stránky
+          <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
+            {children}
+          </Container>
+        )}
       </Box>
       <Footer />
     </Box>
