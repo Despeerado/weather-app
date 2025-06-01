@@ -1,31 +1,21 @@
 // Header component using MUI
-import React, { useState } from 'react'
+import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { AppBar, Toolbar, Typography, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, Tabs, Tab } from '@mui/material'
+import { AppBar, Toolbar, Typography, Box, IconButton, Tabs, Tab } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { CloudQueue, Palette, Home, Map } from '@mui/icons-material'
+import { CloudQueue, Home, Map } from '@mui/icons-material'
 import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher'
-import ColorPaletteDemo from '../../UI/ColorPaletteDemo'
 
 const Header = () => {
   const theme = useTheme()
   const location = useLocation()
   const isDarkMode = theme.palette.mode === 'dark'
-  const [isColorDemoOpen, setIsColorDemoOpen] = useState(false)
 
   // Determine current tab based on location
   const getCurrentTab = () => {
     if (location.pathname === '/') return 0
     if (location.pathname === '/maps') return 1
     return 0
-  }
-
-  const handleColorDemoOpen = () => {
-    setIsColorDemoOpen(true)
-  }
-
-  const handleColorDemoClose = () => {
-    setIsColorDemoOpen(false)
   }
 
   // Glassmorphism styling based on theme mode
@@ -129,48 +119,9 @@ const Header = () => {
             </Box>
           </Box>
           
-          <IconButton
-            color="inherit"
-            onClick={handleColorDemoOpen}
-            title="Zobrazit barevnou paletu"
-            sx={{ mr: 1 }}
-          >
-            <Palette />
-          </IconButton>
-          
           <ThemeSwitcher />
         </Toolbar>
       </AppBar>
-
-      <Dialog 
-        open={isColorDemoOpen} 
-        onClose={handleColorDemoClose}
-        maxWidth="md"
-        fullWidth
-        PaperProps={{
-          sx: {
-            background: isDarkMode 
-              ? 'rgba(45, 55, 72, 0.95)' // Tmavé sklo pro dark mode
-              : 'rgba(255, 255, 255, 0.95)', // Světlé sklo pro light mode
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: isDarkMode
-              ? '1px solid rgba(255, 255, 255, 0.1)'
-              : '1px solid rgba(0, 0, 0, 0.1)',
-            borderRadius: '16px',
-          }
-        }}
-      >
-        <DialogTitle>Vlastní barevné schéma</DialogTitle>
-        <DialogContent>
-          <ColorPaletteDemo />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleColorDemoClose} color="primary">
-            Zavřít
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   )
 }
