@@ -5,6 +5,7 @@ import { AppBar, Toolbar, Typography, Box, IconButton, Tabs, Tab } from '@mui/ma
 import { useTheme } from '@mui/material/styles'
 import { CloudQueue, Home, Map } from '@mui/icons-material'
 import ThemeSwitcher from '../../ThemeSwitcher/ThemeSwitcher'
+import FavoriteCitiesDropdown from '../../FavoriteCities/FavoriteCitiesDropdown'
 
 const Header = () => {
   const theme = useTheme()
@@ -119,7 +120,10 @@ const Header = () => {
             </Box>
           </Box>
           
-          <ThemeSwitcher />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <FavoriteCitiesDropdown />
+            <ThemeSwitcher />
+          </Box>
         </Toolbar>
       </AppBar>
     </>

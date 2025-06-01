@@ -5,7 +5,6 @@ import { useWeather } from '../../contexts/WeatherContext'
 import SearchForm from '../SearchForm/SearchForm'
 import CurrentWeatherDisplay from '../WeatherDisplay/CurrentWeatherDisplay'
 import ForecastDisplay from '../WeatherDisplay/ForecastDisplay'
-import FavoriteCitiesWidget from '../FavoriteCities/FavoriteCitiesWidget'
 import WeatherChartsContainer from '../Charts/WeatherChartsContainer'
 import LoadingSpinner from '../UI/LoadingSpinner'
 import ErrorMessage from '../UI/ErrorMessage'
@@ -19,11 +18,6 @@ const WeatherApp = () => {
         {/* Search Form - Full width on all devices */}
         <Grid item xs={12}>
           <SearchForm />
-        </Grid>
-        
-        {/* Favorites Widget - Full width on all devices */}
-        <Grid item xs={12}>
-          <FavoriteCitiesWidget />
         </Grid>
         
         {/* Loading State - Full width */}
