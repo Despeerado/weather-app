@@ -6,6 +6,7 @@ import SearchForm from '../SearchForm/SearchForm'
 import CurrentWeatherDisplay from '../WeatherDisplay/CurrentWeatherDisplay'
 import ForecastDisplay from '../WeatherDisplay/ForecastDisplay'
 import FavoriteCitiesWidget from '../FavoriteCities/FavoriteCitiesWidget'
+import WeatherChartsContainer from '../Charts/WeatherChartsContainer'
 import LoadingSpinner from '../UI/LoadingSpinner'
 import ErrorMessage from '../UI/ErrorMessage'
 
@@ -54,6 +55,16 @@ const WeatherApp = () => {
               </Grid>
             )}
           </>
+        )}
+        
+        {/* Weather Charts - zobrazí se pouze pokud máme forecast data */}
+        {forecast && (
+          <Grid item xs={12}>
+            <WeatherChartsContainer 
+              weatherData={currentWeather} 
+              forecastData={forecast} 
+            />
+          </Grid>
         )}
       </Grid>
     </Box>
