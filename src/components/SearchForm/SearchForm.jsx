@@ -20,6 +20,7 @@ import {
 import { useWeather } from '../../contexts/WeatherContext'
 import { useFavorites } from '../../contexts/FavoritesContext'
 import CityAutocomplete from './CityAutocomplete'
+import GeolocationButton from './GeolocationButton'
 
 const SearchForm = () => {
   const [query, setQuery] = useState('')
@@ -104,6 +105,10 @@ const SearchForm = () => {
               order: { xs: 2, sm: 2 },
               flexDirection: { xs: 'row', sm: 'row' }
             }}>
+              {/* Geolocation button */}
+              <GeolocationButton />
+              
+              {/* Favorites button */}
               <IconButton
                 onClick={handleAddToFavorites}
                 disabled={!query.trim()}
@@ -131,24 +136,25 @@ const SearchForm = () => {
                 {isQueryFavorite ? <Star /> : <StarBorder />}
               </IconButton>
 
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={loading || !query.trim()}
-              startIcon={
-                loading ? (
-                  <CircularProgress size={20} color="inherit" />
-                ) : (
-                  <Search />
-                )
-              }
-              sx={{ 
-                minWidth: { xs: 100, sm: 120 },
-                fontSize: { xs: '0.875rem', sm: '1rem' }
-              }}
-            >
-              {loading ? 'Hledám...' : 'Hledat'}
-            </Button>
+              {/* Search button */}
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={loading || !query.trim()}
+                startIcon={
+                  loading ? (
+                    <CircularProgress size={20} color="inherit" />
+                  ) : (
+                    <Search />
+                  )
+                }
+                sx={{ 
+                  minWidth: { xs: 100, sm: 120 },
+                  fontSize: { xs: '0.875rem', sm: '1rem' }
+                }}
+              >
+                {loading ? 'Hledám...' : 'Hledat'}
+              </Button>
             </Box>
           </Box>
         </Box>

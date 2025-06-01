@@ -1,6 +1,6 @@
 // Weather service for React app
-import { apiClient } from './apiClient';
-import { CONFIG } from '../config/config';
+import { apiClient } from "./apiClient";
+import { CONFIG } from "../config/config";
 
 class WeatherService {
   constructor() {
@@ -8,33 +8,54 @@ class WeatherService {
     this.baseUrl = CONFIG.WEATHER_API_BASE_URL;
   }
 
-  async getCurrentWeather(city) {
+  async getCurrentWeather(query) {
     try {
-      const response = await apiClient.get('/weather', {
-        params: {
-          q: city,
-          appid: this.apiKey,
-          units: 'metric',
-          lang: 'cs'
-        }
-      });
+      // Detekce jestli je query město nebo souřadnice
+      const isCoordinates = this.isCoordinateQuery(query);
+      const params = {
+        appid: this.apiKey,
+        units: "metric",
+        lang: "cs",
+      };
 
+      if (isCoordinates) {
+        const [lat, lon] = query
+          .split(",")
+          .map((coord) => parseFloat(coord.trim()));
+        params.lat = lat;
+        params.lon = lon;
+      } else {
+        params.q = query;
+      }
+
+      const response = await apiClient.get("/weather", { params });
       return this.formatCurrentWeatherData(response.data);
     } catch (error) {
       throw this.handleError(error);
     }
   }
 
-  async getForecast(city) {
+  async getForecast(query) {
     try {
-      const response = await apiClient.get('/forecast', {
-        params: {
-          q: city,
-          appid: this.apiKey,
-          units: 'metric',
-          lang: 'cs'
-        }
-      });
+      // Detekce jestli je query město nebo souřadnice
+      const isCoordinates = this.isCoordinateQuery(query);
+      const params = {
+        appid: this.apiKey,
+        units: "metric",
+        lang: "cs",
+      };
+
+      if (isCoordinates) {
+        const [lat, lon] = query
+          .split(",")
+          .map((coord) => parseFloat(coord.trim()));
+        params.lat = lat;
+        params.lon = lon;
+      } else {
+        params.q = query;
+      }
+
+      const response = await apiClient.get("/forecast", { params });
 
       return this.formatForecastData(response.data);
     } catch (error) {
@@ -60,12 +81,12 @@ class WeatherService {
       sunrise: new Date(data.sys.sunrise * 1000),
       sunset: new Date(data.sys.sunset * 1000),
       timezone: data.timezone,
-      dt: new Date(data.dt * 1000)
+      dt: new Date(data.dt * 1000),
     };
   }
 
   formatForecastData(data) {
-    const forecasts = data.list.map(item => ({
+    const forecasts = data.list.map((item) => ({
       dt: new Date(item.dt * 1000),
       temperature: Math.round(item.main.temp),
       minTemp: Math.round(item.main.temp_min),
@@ -77,7 +98,7 @@ class WeatherService {
       windSpeed: item.wind.speed,
       windDirection: item.wind.deg,
       cloudiness: item.clouds.all,
-      pop: item.pop // Probability of precipitation
+      pop: item.pop, // Probability of precipitation
     }));
 
     // Group by days
@@ -88,24 +109,24 @@ class WeatherService {
         name: data.city.name,
         country: data.city.country,
         coord: data.city.coord,
-        timezone: data.city.timezone
+        timezone: data.city.timezone,
       },
       list: forecasts,
-      daily: dailyForecasts
+      daily: dailyForecasts,
     };
   }
 
   groupForecastsByDay(forecasts) {
     const days = {};
 
-    forecasts.forEach(forecast => {
+    forecasts.forEach((forecast) => {
       const dateKey = forecast.dt.toDateString();
       if (!days[dateKey]) {
         days[dateKey] = {
           date: forecast.dt,
           items: [],
           minTemp: forecast.minTemp,
-          maxTemp: forecast.maxTemp
+          maxTemp: forecast.maxTemp,
         };
       }
 
@@ -117,24 +138,50 @@ class WeatherService {
     return Object.values(days).slice(0, 5); // Return 5 days
   }
 
+  isCoordinateQuery(query) {
+    // Kontrola jestli query obsahuje souřadnice ve formátu "lat,lon"
+    if (typeof query !== "string") return false;
+
+    const parts = query.split(",");
+    if (parts.length !== 2) return false;
+
+    const lat = parseFloat(parts[0].trim());
+    const lon = parseFloat(parts[1].trim());
+
+    return (
+      !isNaN(lat) &&
+      !isNaN(lon) &&
+      lat >= -90 &&
+      lat <= 90 &&
+      lon >= -180 &&
+      lon <= 180
+    );
+  }
+
   handleError(error) {
     if (error.response) {
       switch (error.response.status) {
         case 404:
-          return new Error('Město nebylo nalezeno. Zkontrolujte název a zkuste to znovu.');
+          return new Error(
+            "Město nebylo nalezeno. Zkontrolujte název a zkuste to znovu.",
+          );
         case 401:
-          return new Error('Neplatný API klíč. Kontaktujte správce aplikace.');
+          return new Error("Neplatný API klíč. Kontaktujte správce aplikace.");
         case 429:
-          return new Error('Příliš mnoho požadavků. Zkuste to prosím později.');
+          return new Error("Příliš mnoho požadavků. Zkuste to prosím později.");
         case 500:
-          return new Error('Chyba serveru. Zkuste to prosím později.');
+          return new Error("Chyba serveru. Zkuste to prosím později.");
         default:
-          return new Error('Nepodařilo se načíst data o počasí. Zkuste to prosím později.');
+          return new Error(
+            "Nepodařilo se načíst data o počasí. Zkuste to prosím později.",
+          );
       }
     } else if (error.request) {
-      return new Error('Nepodařilo se připojit k serveru. Zkontrolujte internetové připojení.');
+      return new Error(
+        "Nepodařilo se připojit k serveru. Zkontrolujte internetové připojení.",
+      );
     } else {
-      return new Error('Došlo k neočekávané chybě.');
+      return new Error("Došlo k neočekávané chybě.");
     }
   }
 }
