@@ -11,7 +11,7 @@ import {
   Box,
   Typography,
   InputAdornment,
-  Portal,
+  Popper,
   ClickAwayListener
 } from '@mui/material'
 import { LocationOn } from '@mui/icons-material'
@@ -36,7 +36,7 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
     if (inputRef.current) {
       setAnchorEl(inputRef.current)
     }
-  }, [inputRef.current])
+  }, [])
 
   useEffect(() => {
     if (debouncedValue && debouncedValue.length >= 2) {
@@ -70,21 +70,6 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
     setSuggestions([])
   }
 
-  // Calculate dropdown position
-  const getDropdownStyle = () => {
-    if (!anchorEl) return {}
-    
-    const rect = anchorEl.getBoundingClientRect()
-    return {
-      position: 'fixed',
-      top: rect.bottom + 4,
-      left: rect.left,
-      width: rect.width,
-      zIndex: 9999,
-      maxHeight: 300,
-    }
-  }
-
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
       <TextField
@@ -92,6 +77,11 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
         fullWidth
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={() => {
+          if (suggestions.length > 0) {
+            setIsOpen(true)
+          }
+        }}
         placeholder="Zadejte název města..."
         variant="outlined"
         InputProps={{
@@ -113,51 +103,68 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
         }}
       />
 
-        <Portal>
-          {isOpen && suggestions.length > 0 && (
-            <ClickAwayListener onClickAway={handleClickAway}>
-              <Paper
-                elevation={8}
-                sx={{
-                  ...getDropdownStyle(),
-                  overflow: 'auto',
-                  borderRadius: 2,
-                  border: '1px solid',
-                  borderColor: 'divider',
-                }}
-              >
-                <List sx={{ py: 0 }}>
-                  {suggestions.map((city, index) => (
-                    <ListItem key={`${city.name}-${city.country}-${index}`} disablePadding>
-                      <ListItemButton
-                        onClick={() => handleSelect(city)}
-                        sx={{
-                          py: 1.5,
-                          '&:hover': {
-                            backgroundColor: 'action.hover',
-                          }
-                        }}
-                      >
-                        <ListItemText
-                          primary={
-                            <Typography variant="body1" fontWeight={500}>
-                              {city.name}
-                            </Typography>
-                          }
-                          secondary={
-                            <Typography variant="body2" color="text.secondary">
-                              {city.state && `${city.state}, `}{city.country}
-                            </Typography>
-                          }
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
-                </List>
-              </Paper>
-            </ClickAwayListener>
-          )}
-        </Portal>
+      <Popper
+        open={isOpen && suggestions.length > 0}
+        anchorEl={inputRef.current}
+        placement="bottom-start"
+        modifiers={[
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 4],
+            },
+          },
+          {
+            name: 'preventOverflow',
+            options: {
+              boundary: 'viewport',
+            },
+          },
+        ]}
+        style={{ zIndex: 9999, width: inputRef.current?.getBoundingClientRect().width }}
+      >
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <Paper
+            elevation={8}
+            sx={{
+              overflow: 'auto',
+              borderRadius: 2,
+              border: '1px solid',
+              borderColor: 'divider',
+              maxHeight: 300,
+            }}
+          >
+            <List sx={{ py: 0 }}>
+              {suggestions.map((city, index) => (
+                <ListItem key={`${city.name}-${city.country}-${index}`} disablePadding>
+                  <ListItemButton
+                    onClick={() => handleSelect(city)}
+                    sx={{
+                      py: 1.5,
+                      '&:hover': {
+                        backgroundColor: 'action.hover',
+                      }
+                    }}
+                  >
+                    <ListItemText
+                      primary={
+                        <Typography variant="body1" fontWeight={500}>
+                          {city.name}
+                        </Typography>
+                      }
+                      secondary={
+                        <Typography variant="body2" color="text.secondary">
+                          {city.state && `${city.state}, `}{city.country}
+                        </Typography>
+                      }
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        </ClickAwayListener>
+      </Popper>
     </Box>
   )
 }
