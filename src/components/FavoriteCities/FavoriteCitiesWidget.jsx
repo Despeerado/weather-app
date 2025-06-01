@@ -21,6 +21,7 @@ import {
   Button,
   Tooltip
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { 
   Star, 
   ExpandMore, 
@@ -37,6 +38,24 @@ const FavoriteCitiesWidget = () => {
   const [showClearDialog, setShowClearDialog] = useState(false)
   const { favorites, removeFromFavorites, clearFavorites } = useFavorites()
   const { searchWeather } = useWeather()
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
+
+  // Glassmorphism styling for favorites widget
+  const favoritesGlassmorphism = {
+    background: isDarkMode 
+      ? 'rgba(255, 255, 255, 0.08)' // Jemná poloprůhlednost pro dark mode
+      : 'rgba(255, 255, 255, 0.25)', // Světlejší poloprůhlednost pro light mode
+    borderRadius: { xs: 2, sm: 3 },
+    boxShadow: isDarkMode
+      ? '0 8px 32px rgba(0, 0, 0, 0.3)' // Silnější stín pro dark mode
+      : '0 8px 32px rgba(0, 0, 0, 0.1)', // Jemnější stín pro light mode
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: isDarkMode
+      ? '1px solid rgba(255, 255, 255, 0.15)'
+      : '1px solid rgba(255, 255, 255, 0.3)'
+  }
 
   const handleCityClick = async (cityName) => {
     setIsOpen(false)
@@ -60,7 +79,7 @@ const FavoriteCitiesWidget = () => {
 
   return (
     <Box sx={{ mb: { xs: 2, sm: 3 } }}>
-      <Card elevation={3} sx={{ borderRadius: { xs: 2, sm: 3 } }}>
+      <Card elevation={0} sx={favoritesGlassmorphism}>
         <CardHeader
           avatar={
             <Badge badgeContent={favorites.length} color="primary">
@@ -122,7 +141,14 @@ const FavoriteCitiesWidget = () => {
                     sx={{ 
                       py: { xs: 1, sm: 1.5 },
                       borderRadius: { xs: 1, sm: 2 },
-                      mx: { xs: 0, sm: 0 }
+                      mx: { xs: 0, sm: 0 },
+                      '&:hover': {
+                        background: isDarkMode 
+                          ? 'rgba(255, 255, 255, 0.05)'
+                          : 'rgba(255, 255, 255, 0.15)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)'
+                      }
                     }}
                   >
                     <LocationOn 
@@ -165,6 +191,19 @@ const FavoriteCitiesWidget = () => {
         onClose={() => setShowClearDialog(false)}
         maxWidth="xs"
         fullWidth
+        PaperProps={{
+          sx: {
+            background: isDarkMode 
+              ? 'rgba(45, 55, 72, 0.95)' // Tmavé sklo pro dark mode
+              : 'rgba(255, 255, 255, 0.95)', // Světlé sklo pro light mode
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            border: isDarkMode
+              ? '1px solid rgba(255, 255, 255, 0.1)'
+              : '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: '16px',
+          }
+        }}
       >
         <DialogTitle>Odstranit všechna oblíbená města?</DialogTitle>
         <DialogContent>

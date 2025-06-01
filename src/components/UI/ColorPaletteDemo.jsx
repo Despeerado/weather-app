@@ -121,6 +121,45 @@ const ColorPaletteDemo = () => {
             <Chip label="Error" color="error" size="small" />
           </Box>
         </Box>
+
+        {/* Gradient Background Showcase */}
+        <Box sx={{ mt: 3 }}>
+          <Typography variant="subtitle2" sx={{ mb: 2 }}>
+            🌈 Gradient Background Preview:
+          </Typography>
+          <Box
+            sx={{
+              height: 100,
+              borderRadius: 2,
+              background: theme.palette.custom?.gradientBackground,
+              border: '2px solid',
+              borderColor: 'primary.main',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: isDark ? 'white' : 'rgba(0,0,0,0.8)',
+                fontWeight: 'bold',
+                textShadow: isDark ? '1px 1px 2px rgba(0,0,0,0.8)' : '1px 1px 2px rgba(255,255,255,0.8)',
+              }}
+            >
+              {isDark ? '🌙 Dark Mode Gradient' : '🌞 Light Mode Gradient'}
+            </Typography>
+          </Box>
+          
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+            CSS: {theme.palette.custom?.gradientBackground ? 
+              `background: ${theme.palette.custom.gradientBackground.substring(0, 50)}...` : 
+              'Gradient not available'
+            }
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   )

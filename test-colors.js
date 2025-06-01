@@ -22,6 +22,11 @@ console.log("Paper (Space Cadet):", darkColors.spaceCadet);
 
 console.log("\n✅ Všechny barvy byly úspěšně načteny!");
 
+// Test gradientů
+console.log("\n🌈 Gradient Backgrounds:");
+console.log("Light Mode Gradient:", lightColors.gradientBackground);
+console.log("Dark Mode Gradient:", darkColors.gradientBackground);
+
 // Test přístupnosti barev
 console.log("\n=== Color Accessibility Test ===");
 function hexToRgb(hex) {
@@ -56,6 +61,9 @@ function getContrastRatio(color1, color2) {
 // Test kontrastů pro light mode
 console.log("Light mode kontrast ratios (vs white background):");
 Object.entries(lightColors).forEach(([name, color]) => {
+  // Přeskočíme gradient - není hex barva
+  if (name === "gradientBackground") return;
+
   const ratio = getContrastRatio(color, "#ffffff");
   const accessibility =
     ratio >= 4.5 ? "✅ AA" : ratio >= 3 ? "⚠️ AA Large" : "❌ Fail";
@@ -64,6 +72,8 @@ Object.entries(lightColors).forEach(([name, color]) => {
 
 console.log("\nDark mode kontrast ratios (vs Oxford Blue background):");
 Object.entries(darkColors).forEach(([name, color]) => {
+  // Přeskočíme gradient - není hex barva
+  if (name === "gradientBackground") return;
   const ratio = getContrastRatio(color, darkColors.oxfordBlue);
   const accessibility =
     ratio >= 4.5 ? "✅ AA" : ratio >= 3 ? "⚠️ AA Large" : "❌ Fail";

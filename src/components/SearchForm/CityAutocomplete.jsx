@@ -14,6 +14,7 @@ import {
   Popper,
   ClickAwayListener
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import { LocationOn } from '@mui/icons-material'
 import { useDebounce } from '../../hooks/useDebounce'
 import { geocodingService } from '../../services/geocodingService'
@@ -25,6 +26,8 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const debouncedValue = useDebounce(value, 300)
   const inputRef = useRef(null)
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
 
   // Handle click away from autocomplete
   const handleClickAway = () => {
@@ -99,6 +102,21 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
         sx={{
           '& .MuiOutlinedInput-root': {
             borderRadius: 2,
+            background: isDarkMode 
+              ? 'rgba(255, 255, 255, 0.05)'
+              : 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            '&:hover': {
+              background: isDarkMode 
+                ? 'rgba(255, 255, 255, 0.08)'
+                : 'rgba(255, 255, 255, 0.25)',
+            },
+            '&.Mui-focused': {
+              background: isDarkMode 
+                ? 'rgba(255, 255, 255, 0.1)'
+                : 'rgba(255, 255, 255, 0.3)',
+            }
           }
         }}
       />
@@ -125,13 +143,22 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
       >
         <ClickAwayListener onClickAway={handleClickAway}>
           <Paper
-            elevation={8}
+            elevation={0}
             sx={{
+              background: isDarkMode 
+                ? 'rgba(255, 255, 255, 0.1)' // Jemná poloprůhlednost pro dark mode
+                : 'rgba(255, 255, 255, 0.25)', // Glassmorphism pro light mode
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: isDarkMode
+                ? '1px solid rgba(255, 255, 255, 0.15)'
+                : '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: 3,
               overflow: 'auto',
-              borderRadius: 2,
-              border: '1px solid',
-              borderColor: 'divider',
               maxHeight: 300,
+              boxShadow: isDarkMode
+                ? '0 8px 32px rgba(0, 0, 0, 0.3)'
+                : '0 8px 32px rgba(0, 0, 0, 0.1)',
             }}
           >
             <List sx={{ py: 0 }}>
@@ -141,8 +168,20 @@ const CityAutocomplete = ({ value, onChange, onSelect }) => {
                     onClick={() => handleSelect(city)}
                     sx={{
                       py: 1.5,
+                      borderRadius: 1,
+                      mx: 0.5,
+                      my: 0.25,
+                      transition: 'all 0.2s ease',
                       '&:hover': {
-                        backgroundColor: 'action.hover',
+                        background: isDarkMode 
+                          ? 'rgba(255, 255, 255, 0.15)'
+                          : 'rgba(255, 255, 255, 0.4)',
+                        backdropFilter: 'blur(12px)',
+                        WebkitBackdropFilter: 'blur(12px)',
+                        transform: 'translateY(-1px)',
+                        boxShadow: isDarkMode
+                          ? '0 4px 20px rgba(0, 0, 0, 0.2)'
+                          : '0 4px 20px rgba(0, 0, 0, 0.1)'
                       }
                     }}
                   >

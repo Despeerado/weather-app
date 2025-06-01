@@ -11,6 +11,7 @@ import {
   InputAdornment,
   CircularProgress
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import {
   Search,
   Star,
@@ -24,6 +25,24 @@ const SearchForm = () => {
   const [query, setQuery] = useState('')
   const { searchWeather, loading } = useWeather()
   const { addToFavorites, isFavorite } = useFavorites()
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
+
+  // Glassmorphism styling for search form
+  const searchFormGlassmorphism = {
+    background: isDarkMode 
+      ? 'rgba(255, 255, 255, 0.08)' // Jemná poloprůhlednost pro dark mode
+      : 'rgba(255, 255, 255, 0.25)', // Světlejší poloprůhlednost pro light mode
+    borderRadius: { xs: 2, sm: 3 },
+    boxShadow: isDarkMode
+      ? '0 8px 32px rgba(0, 0, 0, 0.3)' // Silnější stín pro dark mode
+      : '0 8px 32px rgba(0, 0, 0, 0.1)', // Jemnější stín pro light mode
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: isDarkMode
+      ? '1px solid rgba(255, 255, 255, 0.15)'
+      : '1px solid rgba(255, 255, 255, 0.3)'
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -41,7 +60,7 @@ const SearchForm = () => {
   const isQueryFavorite = query.trim() && isFavorite(query)
 
   return (
-    <Card elevation={3} sx={{ borderRadius: { xs: 2, sm: 3 } }}>
+    <Card elevation={0} sx={searchFormGlassmorphism}>
       <CardHeader
         avatar={<Search color="primary" sx={{ fontSize: { xs: 20, sm: 24 } }} />}
         title="Vyhledat město"
@@ -91,11 +110,20 @@ const SearchForm = () => {
                 color={isQueryFavorite ? 'warning' : 'default'}
                 title="Přidat do oblíbených"
                 sx={{ 
-                  border: 1, 
-                  borderColor: 'divider',
+                  background: isDarkMode 
+                    ? 'rgba(255, 255, 255, 0.05)'
+                    : 'rgba(255, 255, 255, 0.15)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: isDarkMode
+                    ? '1px solid rgba(255, 255, 255, 0.1)'
+                    : '1px solid rgba(255, 255, 255, 0.2)',
                   borderRadius: 1,
                   minWidth: { xs: 48, sm: 'auto' },
                   '&:hover': {
+                    background: isDarkMode 
+                      ? 'rgba(255, 255, 255, 0.08)'
+                      : 'rgba(255, 255, 255, 0.25)',
                     borderColor: 'warning.main'
                   }
                 }}

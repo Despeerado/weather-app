@@ -12,6 +12,7 @@ import {
   ListItem,
   Divider
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import {
   CalendarMonth,
   Water,
@@ -20,9 +21,29 @@ import {
 } from '@mui/icons-material'
 
 const ForecastDisplay = ({ data }) => {
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
+  
   if (!data || !data.daily) return null
 
   const { daily } = data
+
+  // Glassmorphism styling for forecast card
+  const forecastCardGlassmorphism = {
+    background: isDarkMode 
+      ? 'rgba(255, 255, 255, 0.08)' // Jemná poloprůhlednost pro dark mode
+      : 'rgba(255, 255, 255, 0.25)', // Světlejší poloprůhlednost pro light mode
+    borderRadius: { xs: 2, sm: 3 },
+    boxShadow: isDarkMode
+      ? '0 8px 32px rgba(0, 0, 0, 0.3)' // Silnější stín pro dark mode
+      : '0 8px 32px rgba(0, 0, 0, 0.1)', // Jemnější stín pro light mode
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: isDarkMode
+      ? '1px solid rgba(255, 255, 255, 0.15)'
+      : '1px solid rgba(255, 255, 255, 0.3)',
+    height: '100%'
+  }
 
   const formatDate = (date) => {
     return new Intl.DateTimeFormat('cs-CZ', {
@@ -47,7 +68,7 @@ const ForecastDisplay = ({ data }) => {
   }
 
   return (
-    <Card elevation={3} sx={{ height: '100%', borderRadius: { xs: 2, sm: 3 } }}>
+    <Card elevation={0} sx={forecastCardGlassmorphism}>
       <CardHeader
         avatar={<CalendarMonth color="primary" sx={{ fontSize: { xs: 20, sm: 24 } }} />}
         title={
@@ -78,9 +99,16 @@ const ForecastDisplay = ({ data }) => {
                   sx={{
                     py: { xs: 1.5, sm: 2 },
                     px: { xs: 2, sm: 3 },
-                    backgroundColor: isToday ? 'primary.light' : 'transparent',
+                    backgroundColor: isToday 
+                      ? (isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(37, 99, 235, 0.1)')
+                      : 'transparent',
+                    borderRadius: isToday ? 2 : 0,
                     '&:hover': {
-                      backgroundColor: isToday ? 'primary.light' : 'action.hover'
+                      backgroundColor: isToday 
+                        ? (isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(37, 99, 235, 0.15)')
+                        : (isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.1)'),
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)'
                     }
                   }}
                 >

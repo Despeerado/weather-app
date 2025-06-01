@@ -48,9 +48,33 @@ const QuickColorTest = () => {
       </Stack>
       
       {Object.keys(customColors).length > 0 && (
-        <Typography variant="caption" color="success.main" sx={{ mt: 2, display: 'block' }}>
-          ✅ Custom colors loaded: {Object.keys(customColors).length} colors
-        </Typography>
+        <>
+          <Typography variant="caption" color="success.main" sx={{ mt: 2, display: 'block' }}>
+            ✅ Custom colors loaded: {Object.keys(customColors).length} colors
+          </Typography>
+          
+          {/* Gradient Preview */}
+          <Box
+            sx={{
+              mt: 2,
+              height: 60,
+              borderRadius: 1,
+              background: theme.palette.custom?.gradientBackground || 'transparent',
+              border: '1px solid',
+              borderColor: 'divider',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant="caption" sx={{ 
+              color: isDarkMode ? 'white' : 'rgba(0,0,0,0.7)',
+              fontWeight: 'bold',
+            }}>
+              Gradient Background
+            </Typography>
+          </Box>
+        </>
       )}
     </Box>
   );

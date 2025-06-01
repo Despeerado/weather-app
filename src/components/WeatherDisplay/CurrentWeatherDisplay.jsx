@@ -10,6 +10,7 @@ import {
   Chip,
   Divider
 } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 import {
   Water,
   Speed,
@@ -20,6 +21,9 @@ import {
 } from '@mui/icons-material'
 
 const CurrentWeatherDisplay = ({ data }) => {
+  const theme = useTheme()
+  const isDarkMode = theme.palette.mode === 'dark'
+  
   if (!data) return null
 
   const {
@@ -37,6 +41,23 @@ const CurrentWeatherDisplay = ({ data }) => {
     sunrise,
     sunset
   } = data
+
+  // Glassmorphism styling for weather cards
+  const weatherCardGlassmorphism = {
+    background: isDarkMode 
+      ? 'rgba(255, 255, 255, 0.08)' // Jemná poloprůhlednost pro dark mode
+      : 'rgba(255, 255, 255, 0.25)', // Světlejší poloprůhlednost pro light mode
+    borderRadius: { xs: 2, sm: 3 },
+    boxShadow: isDarkMode
+      ? '0 8px 32px rgba(0, 0, 0, 0.3)' // Silnější stín pro dark mode
+      : '0 8px 32px rgba(0, 0, 0, 0.1)', // Jemnější stín pro light mode
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    border: isDarkMode
+      ? '1px solid rgba(255, 255, 255, 0.15)'
+      : '1px solid rgba(255, 255, 255, 0.3)',
+    height: '100%'
+  }
 
   const formatTime = (date) => {
     return new Intl.DateTimeFormat('cs-CZ', {
@@ -62,13 +83,8 @@ const CurrentWeatherDisplay = ({ data }) => {
 
   return (
     <Card 
-      elevation={3}
-      sx={{ 
-        borderRadius: { xs: 2, sm: 3 },
-        background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(59, 130, 246, 0.05))',
-        backdropFilter: 'blur(10px)',
-        height: '100%'
-      }}
+      elevation={0}
+      sx={weatherCardGlassmorphism}
     >
       <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
         {/* Header s lokací */}
@@ -155,12 +171,24 @@ const CurrentWeatherDisplay = ({ data }) => {
                   gap: { xs: 0.5, sm: 1.5 },
                   p: { xs: 1, sm: 2 },
                   borderRadius: 2,
-                  backgroundColor: 'background.paper',
+                  background: isDarkMode 
+                    ? 'rgba(255, 255, 255, 0.05)' // Velmi jemná poloprůhlednost pro dark mode
+                    : 'rgba(255, 255, 255, 0.15)', // Jemnější poloprůhlednost pro light mode
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  border: isDarkMode
+                    ? '1px solid rgba(255, 255, 255, 0.1)'
+                    : '1px solid rgba(255, 255, 255, 0.2)',
                   transition: 'all 0.2s ease',
                   textAlign: { xs: 'center', sm: 'left' },
                   '&:hover': {
-                    backgroundColor: 'action.hover',
-                    transform: 'translateY(-2px)'
+                    background: isDarkMode 
+                      ? 'rgba(255, 255, 255, 0.08)'
+                      : 'rgba(255, 255, 255, 0.25)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: isDarkMode
+                      ? '0 4px 20px rgba(0, 0, 0, 0.2)'
+                      : '0 4px 20px rgba(0, 0, 0, 0.1)'
                   }
                 }}
               >

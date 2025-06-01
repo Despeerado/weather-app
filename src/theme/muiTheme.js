@@ -15,6 +15,9 @@ const lightColors = {
   // Supporting colors
   light: "#f8fafc",
   dark: "#1e293b",
+  // Gradient background for light mode
+  gradientBackground:
+    "linear-gradient(45deg, rgba(142, 197, 252, 1.000) 0.000%, rgba(141, 211, 255, 1.000) 25.000%, rgba(161, 216, 255, 1.000) 50.000%, rgba(193, 210, 255, 1.000) 75.000%, rgba(224, 195, 255, 1.000) 100.000%)",
 };
 
 // Custom color palette for dark mode (optimized for accessibility)
@@ -32,6 +35,8 @@ const darkColors = {
   // Supporting colors
   light: "#f8fafc",
   dark: "#1e293b",
+  // Gradient background for dark mode
+  gradientBackground: "linear-gradient(to right, #6a11cb 0%, #2575fc 100%)",
 };
 
 // Vytvoření MUI tématu s vašimi barvami
@@ -83,6 +88,8 @@ export const lightTheme = createTheme({
       appleGreen: lightColors.appleGreen,
       avocado: lightColors.avocado,
       xanthous: lightColors.xanthous,
+      // Gradient background
+      gradientBackground: lightColors.gradientBackground,
     },
   },
   typography: {
@@ -180,6 +187,8 @@ export const darkTheme = createTheme({
       yinmnBlue: darkColors.yinmnBlue,
       verdigris: darkColors.verdigris,
       fluorescentCyan: darkColors.fluorescentCyan,
+      // Gradient background
+      gradientBackground: darkColors.gradientBackground,
     },
   },
   typography: {
