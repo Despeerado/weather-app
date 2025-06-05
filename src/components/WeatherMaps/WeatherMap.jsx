@@ -4,7 +4,6 @@ import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { useWeatherMaps } from '../../hooks/useWeatherMaps.js';
 import WeatherMapControls from './WeatherMapControls.jsx';
 import WeatherMapLegend from './WeatherMapLegend.jsx';
-import WeatherMapSpinner from '../UI/WeatherMapSpinner.jsx';
 import './WeatherMaps.css';
 
 // Fix for default markers in react-leaflet
@@ -97,26 +96,6 @@ const WeatherMap = ({
   showLegend = true,
   className = ''
 }) => {
-  // Check if Leaflet is available
-  if (typeof window !== 'undefined' && !window.L) {
-    return (
-      <div style={{
-        height,
-        minHeight: '400px',
-        position: 'relative',
-        background: 'rgba(255,255,255,0.1)',
-        borderRadius: '20px',
-        border: '1px solid rgba(255,255,255,0.2)'
-      }}>
-        <WeatherMapSpinner 
-          variant="initialization"
-          size="large"
-          showIcons={true}
-        />
-      </div>
-    );
-  }
-
   const {
     mapCenter,
     zoomLevel,
@@ -161,8 +140,7 @@ const WeatherMap = ({
         padding: '5px',
         borderRadius: '5px',
         fontSize: '12px',
-        zIndex: 1001,
-        display: window.innerWidth > 768 ? 'block' : 'none' // Skryjeme na mobilu
+        zIndex: 1001
       }}>
         Map: {mapCenter.lat.toFixed(2)}, {mapCenter.lon.toFixed(2)} | Zoom: {zoomLevel} | Layers: {activeLayers.length}
       </div>
@@ -209,11 +187,9 @@ const WeatherMap = ({
 
       {/* Loading overlay */}
       {isLoading && (
-        <WeatherMapSpinner 
-          variant="tiles"
-          size="medium"
-          showIcons={true}
-        />
+        <div className="map-loading-overlay">
+          <div className="map-loading-spinner">🔄 Načítám meteorologické vrstvy...</div>
+        </div>
       )}
 
       {/* Error overlay */}
