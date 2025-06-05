@@ -1,11 +1,22 @@
 // WeatherChartsContainer - hlavní komponenta pro zobrazení všech grafů
-import React from 'react'
-import { Grid, Box, Typography, Fade } from '@mui/material'
+import React, { Suspense } from 'react'
+import { Grid, Box, Typography, Fade, Skeleton } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import TemperatureTrend from './TemperatureTrend'
-import PrecipitationChart from './PrecipitationChart'
-import WeatherMetricsChart from './WeatherMetricsChart'
 import { BarChart } from '@mui/icons-material'
+import { LazyComponent } from '../../hooks/useIntersectionObserver.jsx'
+
+// Lazy load heavy chart components
+const TemperatureTrend = React.lazy(() => import('./TemperatureTrend'))
+const PrecipitationChart = React.lazy(() => import('./PrecipitationChart'))
+const WeatherMetricsChart = React.lazy(() => import('./WeatherMetricsChart'))
+
+// Loading skeleton for charts
+const ChartSkeleton = () => (
+  <Box sx={{ p: 2 }}>
+    <Skeleton variant="text" width="60%" height={40} />
+    <Skeleton variant="rectangular" height={300} sx={{ mt: 1, borderRadius: 1 }} />
+  </Box>
+)
 
 const WeatherChartsContainer = ({ weatherData, forecastData }) => {
   const theme = useTheme()
@@ -44,17 +55,29 @@ const WeatherChartsContainer = ({ weatherData, forecastData }) => {
         <Grid container spacing={3}>
           {/* Teplotní trend - celá šířka na mobilech, polovina na desktopu */}
           <Grid item xs={12} lg={6}>
-            <TemperatureTrend forecastData={forecastData} />
+            <LazyComponent placeholder={<ChartSkeleton />}>
+              <Suspense fallback={<ChartSkeleton />}>
+                <TemperatureTrend forecastData={forecastData} />
+              </Suspense>
+            </LazyComponent>
           </Grid>
 
           {/* Pravděpodobnost srážek */}
           <Grid item xs={12} lg={6}>
-            <PrecipitationChart forecastData={forecastData} />
+            <LazyComponent placeholder={<ChartSkeleton />}>
+              <Suspense fallback={<ChartSkeleton />}>
+                <PrecipitationChart forecastData={forecastData} />
+              </Suspense>
+            </LazyComponent>
           </Grid>
 
           {/* Metriky počasí - celá šířka */}
           <Grid item xs={12}>
-            <WeatherMetricsChart forecastData={forecastData} />
+            <LazyComponent placeholder={<ChartSkeleton />}>
+              <Suspense fallback={<ChartSkeleton />}>
+                <WeatherMetricsChart forecastData={forecastData} />
+              </Suspense>
+            </LazyComponent>
           </Grid>
         </Grid>
       </Box>

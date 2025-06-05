@@ -1,11 +1,22 @@
 // Weather service for React app
 import { apiClient } from "./apiClient";
 import { CONFIG } from "../config/config.js";
+import { weatherCache } from "../utils/weatherCache.js";
 
 class WeatherService {
   constructor() {
     this.apiKey = CONFIG.WEATHER_API_KEY;
     this.baseUrl = CONFIG.WEATHER_API_BASE_URL;
+    this.cacheEnabled = import.meta.env.VITE_PWA_CACHE_WEATHER_API !== "false";
+  }
+
+  // Generate cache key for requests
+  generateCacheKey(endpoint, params) {
+    const sortedParams = Object.keys(params)
+      .sort()
+      .map((key) => `${key}=${params[key]}`)
+      .join("&");
+    return `${endpoint}?${sortedParams}`;
   }
 
   async getCurrentWeather(query) {
@@ -28,8 +39,24 @@ class WeatherService {
         params.q = query;
       }
 
+      // Check cache first
+      const cacheKey = this.generateCacheKey("/weather", params);
+      if (this.cacheEnabled) {
+        const cachedData = await weatherCache.get("weather", cacheKey);
+        if (cachedData) {
+          return cachedData;
+        }
+      }
+
       const response = await apiClient.get("/weather", { params });
-      return this.formatCurrentWeatherData(response.data);
+      const formattedData = this.formatCurrentWeatherData(response.data);
+
+      // Cache the response
+      if (this.cacheEnabled) {
+        await weatherCache.set("weather", cacheKey, formattedData);
+      }
+
+      return formattedData;
     } catch (error) {
       throw this.handleError(error);
     }

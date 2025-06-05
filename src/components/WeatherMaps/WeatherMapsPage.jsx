@@ -1,11 +1,21 @@
 // WeatherMapsPage.jsx - Standalone page for weather maps
-import React from 'react';
-import { Box, Typography, Breadcrumbs, Link } from '@mui/material';
+import React, { Suspense } from 'react';
+import { Box, Typography, Breadcrumbs, Link, Skeleton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Link as RouterLink } from 'react-router-dom';
 import { Home, Map } from '@mui/icons-material';
-import WeatherMapsContainer from './WeatherMapsContainer';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+
+// Lazy load heavy maps component
+const WeatherMapsContainer = React.lazy(() => import('./WeatherMapsContainer'));
+
+// Loading skeleton for maps
+const MapsSkeleton = () => (
+  <Box sx={{ p: 3 }}>
+    <Skeleton variant="text" width="40%" height={50} sx={{ mb: 2 }} />
+    <Skeleton variant="rectangular" height={600} sx={{ borderRadius: 2 }} />
+  </Box>
+);
 
 const WeatherMapsPage = () => {
   useDocumentTitle('Meteorologické mapy');
@@ -109,7 +119,9 @@ const WeatherMapsPage = () => {
           minHeight: { xs: '400px', sm: '500px', md: '600px' },
           width: '100%' // Zajistíme plnou šířku kontejneru
         }}>
-          <WeatherMapsContainer height="100%" showHeader={false} />
+          <Suspense fallback={<MapsSkeleton />}>
+            <WeatherMapsContainer height="100%" showHeader={false} />
+          </Suspense>
         </Box>
       </Box>
     </Box>
