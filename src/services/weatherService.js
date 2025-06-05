@@ -1,6 +1,6 @@
 // Weather service for React app
 import { apiClient } from "./apiClient";
-import { CONFIG } from "../config/config";
+import { CONFIG } from "../config/config.js";
 
 class WeatherService {
   constructor() {

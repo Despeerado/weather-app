@@ -1,6 +1,6 @@
 // Geocoding service for city search
 import axios from "axios";
-import { CONFIG } from "../config/config";
+import { CONFIG } from "../config/config.js";
 
 class GeocodingService {
   constructor() {
