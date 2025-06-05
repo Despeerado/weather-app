@@ -18,7 +18,7 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
-config.js
+# config.js is now included - it only contains public URLs and env var references
 
 # === SYSTEM FILES ===
 .DS_Store
